@@ -1,26 +1,69 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="game-board">
+    <the-map
+        :scheme="scheme"
+        :drag="drag"
+        class="game-board__column"
+        @input="paint"
+    ></the-map>
+
+    <the-legend
+        @input="drag = $event"
+        class="game-board__column"
+    ></the-legend>
+
+    <the-dice></the-dice>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import TheMap from './components/TheMap/TheMap.vue'
+import TheLegend from './components/TheLegend.vue'
+import TheDice from './components/TheDice.vue'
 
 export default {
   name: 'App',
+
   components: {
-    HelloWorld
+    TheMap,
+    TheLegend,
+    TheDice
+  },
+
+  data() {
+    return {
+      scheme: ['in', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'out', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
+      drag: false,
+    };
+  },
+
+  methods: {
+    paint({ index, effect }) {
+      if (!['in', 'out'].includes(this.scheme[index])) {
+        this.scheme[index] = effect;
+      }
+    }
   }
 }
 </script>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+<style lang="scss">
+body {
+  margin: 0;
+}
+
+html, body, #app {
+  height: 100%;
+}
+
+.game-board {
+  display: flex;
+  height: 100%;
+  background-color: #222;
+  background-image: url(@/assets/bg.png);
+
+  &__column {
+    padding: 20px;
+  }
 }
 </style>
