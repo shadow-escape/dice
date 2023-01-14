@@ -40,13 +40,12 @@
     <circle
         v-for="(node, index) in nodes"
         :key="`position-${index}`"
-        :class="[`cell-${scheme[index]}`, { 'cell-drop': drag }]"
+        :class="[`cell-${scheme[index].value}`, {'cell-drop': drag}]"
         :data-index="index"
         :cx="node.x"
         :cy="node.y"
         r="40"
         draggable="true"
-        @dragstart="onDragStart"
         @drop="onDrop"
         @dragenter.prevent
         @dragover.prevent
@@ -79,10 +78,6 @@ export default {
         index: event.target.dataset.index,
         effect: event.dataTransfer.getData('text')
       });
-    },
-
-    onDragStart() {
-      console.log('test')
     }
   }
 }

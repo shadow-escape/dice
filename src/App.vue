@@ -11,36 +11,80 @@
         @input="drag = $event"
         class="game-board__column"
     ></the-legend>
-
-    <the-dice></the-dice>
   </div>
 </template>
 
 <script>
 import TheMap from './components/TheMap/TheMap.vue'
 import TheLegend from './components/TheLegend.vue'
-import TheDice from './components/TheDice.vue'
 
 export default {
   name: 'App',
 
   components: {
     TheMap,
-    TheLegend,
-    TheDice
+    TheLegend
   },
 
   data() {
     return {
-      scheme: ['in', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'out', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none', 'none'],
       drag: false,
+      scheme: [
+        { value: 'in', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'out', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null },
+        { value: 'none', order: null }
+      ]
     };
   },
 
   methods: {
     paint({ index, effect }) {
-      if (!['in', 'out'].includes(this.scheme[index])) {
-        this.scheme[index] = effect;
+      if (!['in', 'out'].includes(this.scheme[index].value)) {
+        const group = this.scheme.filter(cell => cell.value === effect)
+        // const order = group.map(cell => cell.order).length
+
+        // if (order > 3)
+
+        this.scheme[index].value = effect;
+
+        // this.scheme[index].order = effect;
       }
     }
   }
