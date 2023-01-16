@@ -78,8 +78,9 @@ export default {
     paint({ index, effect }) {
       if (!['in', 'out'].includes(this.scheme[index].value)) {
         const group = this.scheme.filter(cell => cell.value === effect)
-        // const order = group.map(cell => cell.order).length
+        const order = group.map(cell => cell.order).length
 
+        console.log(order);
         // if (order > 3)
 
         this.scheme[index].value = effect;
