@@ -29,18 +29,24 @@
       </pattern>
     </defs>
 
-    <line
-        v-for="(line, index) in lines"
-        :key="`line-${index}`"
-        :x1="line.x1"
-        :y1="line.y1"
-        :x2="line.x2"
-        :y2="line.y2"
+    <path
+        class="the-map__line"
+        :class="{
+          'the-map__line_forward': robot.direction > 0,
+          'the-map__backward': robot.direction < 0,
+        }"
+        d="M544 448v96h128l128 32v128H32V576l128 33-36-94-92-99h128V288H32V32h128l32 128 96 64V32h256l32 128v97l-96-33 32 96 96 33 65-65-1-257 128 1v384l-128 32z"
     />
+
     <circle
         v-for="(node, index) in nodes"
         :key="`position-${index}`"
-        :class="[`cell-${scheme[index].value}`, {'cell-drop': drag}]"
+        :class="[
+            `cell-${scheme[index].value}`,
+            {'cell-drop': drag},
+            {'cell-robot': robot.position === index},
+            {'cell-available': cells.some(cell => cell.index === index) }
+        ]"
         :data-index="index"
         :cx="node.x"
         :cy="node.y"
@@ -49,6 +55,7 @@
         @drop="onDrop"
         @dragenter.prevent
         @dragover.prevent
+        @click="move(index)"
     />
   </svg>
 </template>
@@ -60,8 +67,10 @@ export default {
   name: 'TheMap',
 
   props: {
+    available: Object,
     scheme: Array,
-    drag: Boolean
+    drag: Boolean,
+    robot: Object
   },
 
   data() {
@@ -72,12 +81,38 @@ export default {
     };
   },
 
+  computed: {
+    cells() {
+      if (this.available) {
+        if (this.robot.direction > 0) {
+          return Object.keys(this.available).map(value => ({
+            index: this.robot.position + Number(value),
+            value: Number(value),
+            moves: this.available[value]
+          }));
+        }
+      }
+
+      return []
+    }
+  },
+
   methods: {
     onDrop(event) {
-      this.$emit('input', {
+      this.$emit('update:drop', {
         index: event.target.dataset.index,
         effect: event.dataTransfer.getData('text')
       });
+    },
+    move(index) {
+      const needle = this.cells.find(cell => cell.index === index)
+
+      if (needle) {
+        this.$emit('update:position', {
+          position: needle.moves.position,
+          value: needle.value
+        })
+      }
     }
   }
 }
@@ -87,11 +122,30 @@ export default {
 .the-map {
   overflow: unset;
 
-  line {
+  &__line {
     fill: none;
     stroke: #fff;
     stroke-miterlimit: 10;
     stroke-width: 4px;
+    stroke-dasharray: 10;
+
+    &_forward {
+      animation: dash 60s linear infinite;
+    }
+
+    &_backward {
+      animation: dash 60s linear infinite;
+    }
+
+    @keyframes dash {
+      from { stroke-dashoffset: 0}
+      to { stroke-dashoffset: 1000 }
+    }
+
+    @keyframes dash-reverse {
+      from { stroke-dashoffset: 1000}
+      to { stroke-dashoffset: 0 }
+    }
   }
 
   circle {
@@ -111,5 +165,15 @@ export default {
   .cell-battery { fill: url(#cell-battery); }
   .cell-reverse { fill: url(#cell-reverse); }
   .cell-random { fill: url(#cell-random); }
+  .cell-robot { fill: #000 }
+  .cell-available {
+    stroke: green;
+    stroke-width: 4px;
+    cursor: pointer;
+
+    &:hover {
+      stroke: red;
+    }
+  }
 }
 </style>

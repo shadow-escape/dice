@@ -1,16 +1,29 @@
 <template>
   <div class="game-board">
     <the-map
+        :available="available"
         :scheme="scheme"
         :drag="drag"
+        :robot="robot"
         class="game-board__column"
-        @input="paint"
+        @update:drop="onDrop"
+        @update:position="setPosition"
     ></the-map>
 
     <the-legend
-        @input="drag = $event"
+        :is-edit="isEdit"
+        :position="position"
         class="game-board__column"
-    ></the-legend>
+        @update:drag="drag = $event"
+        @update:available="available = $event"
+    >
+      <button
+          v-if="isEdit"
+          @click="isEdit = false"
+      >
+        Закончить редактирование
+      </button>
+    </the-legend>
   </div>
 </template>
 
@@ -28,7 +41,14 @@ export default {
 
   data() {
     return {
+      isEdit: true,
+      robot: {
+        position: 0,
+        direction: 1
+      },
       drag: false,
+      available: null,
+      position: 0,
       scheme: [
         { value: 'in', order: null },
         { value: 'none', order: null },
@@ -75,7 +95,7 @@ export default {
   },
 
   methods: {
-    paint({ index, effect }) {
+    onDrop({ index, effect }) {
       if (!['in', 'out'].includes(this.scheme[index].value)) {
         const group = this.scheme.filter(cell => cell.value === effect)
         const order = group.map(cell => cell.order).length
@@ -87,7 +107,11 @@ export default {
 
         // this.scheme[index].order = effect;
       }
-    }
+    },
+    setPosition({ position, value }) {
+      this.position = position;
+      this.robot.position += Number(value) * this.robot.direction;
+    },
   }
 }
 </script>

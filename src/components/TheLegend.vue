@@ -1,27 +1,45 @@
 <template>
   <div class="controls">
-    <div
-        v-for="item in legend"
-        :key="`control-${item}`"
-        class="control control-0"
-        :class="`control-${item}`"
-        draggable="true"
-        @dragstart="onDragStart($event, item)"
-        @dragend="$emit('input', false)"
-    ></div>
+    <slot></slot>
 
-    <the-dice></the-dice>
+    <div v-if="isEdit">
+      <div
+          v-for="item in legend"
+          :key="`control-${item}`"
+          class="control control-0"
+          :class="`control-${item}`"
+          draggable="true"
+          @dragstart="onDragStart($event, item)"
+          @dragend="$emit('update:drag', false)"
+      ></div>
+    </div>
+
+    <the-dice
+        v-else
+        :position="position"
+        @update:available="$emit('update:available', $event)"
+    ></the-dice>
   </div>
 </template>
 
 <script>
-import TheDice from "@/components/TheDice";
+import TheDice from "@/components/TheDice/TheDice";
 
 export default {
   name: 'TheLegend',
 
   components: {
     TheDice
+  },
+
+  props: {
+    isEdit: Boolean,
+    position: {
+      type: Number,
+      validator(value) {
+        return value >= 0 && value < 24;
+      }
+    },
   },
 
   data() {
@@ -33,7 +51,7 @@ export default {
   methods: {
     onDragStart(event, item) {
       event.dataTransfer.setData('text/plain', item);
-      this.$emit('input', true);
+      this.$emit('set-drag', true);
     }
   },
 }
