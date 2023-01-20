@@ -30,31 +30,31 @@
     </defs>
 
     <path
+        d="M544 448v96h128l128 32v128H32V576l128 33-36-94-92-99h128V288H32V32h128l32 128 96 64V32h256l32 128v97l-96-33 32 96 96 33 65-65-1-257 128 1v384l-128 32z"
         class="the-map__line"
         :class="{
           'the-map__line_forward': robot.direction > 0,
-          'the-map__backward': robot.direction < 0,
+          'the-map__line_backward': robot.direction < 0,
         }"
-        d="M544 448v96h128l128 32v128H32V576l128 33-36-94-92-99h128V288H32V32h128l32 128 96 64V32h256l32 128v97l-96-33 32 96 96 33 65-65-1-257 128 1v384l-128 32z"
     />
 
     <circle
         v-for="(node, index) in nodes"
         :key="`position-${index}`"
-        :class="[
-            `cell-${scheme[index].value}`,
+        :class="[`cell-${scheme[index].value}`,
             {'cell-drop': drag},
             {'cell-robot': robot.position === index},
-            {'cell-available': cells.some(cell => cell.index === index) }
+            {'cell-available': cells.some(cell => cell.index === index)},
+            {'cell-over': hover === index}
         ]"
         :data-index="index"
         :cx="node.x"
         :cy="node.y"
         r="40"
-        draggable="true"
         @drop="onDrop"
         @dragenter.prevent
-        @dragover.prevent
+        @dragover.prevent="hover = index"
+        @dragleave="hover = false"
         @click="move(index)"
     />
   </svg>
@@ -62,6 +62,7 @@
 
 <script>
 import {nodes, lines} from "@/components/TheMap/shape";
+import Robot from "@/services/Robot";
 
 export default {
   name: 'TheMap',
@@ -70,7 +71,9 @@ export default {
     available: Object,
     scheme: Array,
     drag: Boolean,
-    robot: Object
+    robot: {
+      type: Robot
+    }
   },
 
   data() {
@@ -99,11 +102,14 @@ export default {
 
   methods: {
     onDrop(event) {
+      this.hover = false;
+
       this.$emit('update:drop', {
         index: event.target.dataset.index,
         effect: event.dataTransfer.getData('text')
       });
     },
+
     move(index) {
       const needle = this.cells.find(cell => cell.index === index)
 
@@ -125,26 +131,16 @@ export default {
   &__line {
     fill: none;
     stroke: #fff;
-    stroke-miterlimit: 10;
     stroke-width: 4px;
     stroke-dasharray: 10;
+    animation: dash 60s linear infinite;
 
     &_forward {
-      animation: dash 60s linear infinite;
+      animation-direction: normal;
     }
 
     &_backward {
-      animation: dash 60s linear infinite;
-    }
-
-    @keyframes dash {
-      from { stroke-dashoffset: 0}
-      to { stroke-dashoffset: 1000 }
-    }
-
-    @keyframes dash-reverse {
-      from { stroke-dashoffset: 1000}
-      to { stroke-dashoffset: 0 }
+      animation-direction: reverse;
     }
   }
 
@@ -152,15 +148,18 @@ export default {
     fill: lightgray;
     stroke: #fff;
     stroke-width: 2px;
+    transition: fill .1s ease-in-out, stroke .1s linear, .1s filter .1s ease-in-out;
   }
 
-  .cell-drop {
-    stroke: #fff;
-    stroke-width: 2px;
-    stroke-dasharray: 8;
+  .cell-drop:not(.cell-in):not(.cell-out) {
+    filter: drop-shadow(0 0 5px #fff);
+    stroke: #000;
+    stroke-width: 5px;
+    stroke-dasharray: 10;
+    paint-order: stroke;
   }
 
-  .cell-in {fill: red; }
+  .cell-in { fill: red; }
   .cell-out { fill: #00fc9d; }
   .cell-battery { fill: url(#cell-battery); }
   .cell-reverse { fill: url(#cell-reverse); }
@@ -168,12 +167,20 @@ export default {
   .cell-robot { fill: #000 }
   .cell-available {
     stroke: green;
-    stroke-width: 4px;
+    stroke-width: 3px;
     cursor: pointer;
 
-    &:hover {
-      stroke: red;
-    }
+    &:hover { stroke: red; }
   }
+  .cell-over {
+    filter: none !important;
+    stroke: none !important;
+    fill: #a9cdbb !important;
+  }
+}
+
+@keyframes dash {
+  from { stroke-dashoffset: 0}
+  to { stroke-dashoffset: 1000 }
 }
 </style>

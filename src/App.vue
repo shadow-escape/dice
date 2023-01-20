@@ -11,10 +11,10 @@
     ></the-map>
 
     <the-legend
+        v-model:drag="drag"
         :is-edit="isEdit"
         :position="position"
         class="game-board__column"
-        @update:drag="drag = $event"
         @update:available="available = $event"
     >
       <button
@@ -29,7 +29,9 @@
 
 <script>
 import TheMap from './components/TheMap/TheMap.vue'
-import TheLegend from './components/TheLegend.vue'
+import TheLegend from './components/TheLegend/TheLegend.vue'
+import Robot from './services/Robot'
+import { SCHEME } from './scheme';
 
 export default {
   name: 'App',
@@ -42,65 +44,21 @@ export default {
   data() {
     return {
       isEdit: true,
-      robot: {
-        position: 0,
-        direction: 1
-      },
+      robot: new Robot(),
       drag: false,
       available: null,
       position: 0,
-      scheme: [
-        { value: 'in', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'out', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null },
-        { value: 'none', order: null }
-      ]
+      scheme: SCHEME
     };
   },
 
   methods: {
     onDrop({ index, effect }) {
       if (!['in', 'out'].includes(this.scheme[index].value)) {
-        const group = this.scheme.filter(cell => cell.value === effect)
-        const order = group.map(cell => cell.order).length
+        // const group = this.scheme.filter(cell => cell.value === effect)
+        // const order = group.map(cell => cell.order).length
 
-        console.log(order);
+        // console.log(order);
         // if (order > 3)
 
         this.scheme[index].value = effect;
@@ -108,9 +66,10 @@ export default {
         // this.scheme[index].order = effect;
       }
     },
+
     setPosition({ position, value }) {
       this.position = position;
-      this.robot.position += Number(value) * this.robot.direction;
+      this.robot.move(Number(value));
     },
   }
 }
