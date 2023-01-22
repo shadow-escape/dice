@@ -1,12 +1,11 @@
 <template>
-  <div class="the-dice">
+  <div class="the-dice position-relative">
     <div class="dice" :style="{
-      transform: `rotateX(-15deg)
-                  rotateY(30deg)
-                  rotateX(${current.coordinates[0] * 90}deg)
-                  rotateY(${current.coordinates[1] * 90}deg)
-                  rotateZ(${current.coordinates[2] * 90}deg)
-                  `}">
+        transform: `rotateX(-15deg) rotateY(30deg)
+                  rotateX(${dice.coordinates[0] * 90}deg)
+                  rotateY(${dice.coordinates[1] * 90}deg)
+                  rotateZ(${dice.coordinates[2] * 90}deg)
+        `}">
       <div class="side one"></div>
       <div class="side two"></div>
       <div class="side three"></div>
@@ -15,74 +14,59 @@
       <div class="side six"></div>
     </div>
 
-    <div style="margin-top: 20px">
-      <label v-for="item in directions" :key="item" style="color: #fff">
-        <input type="radio" v-model="direction" :value="item">
-        <span>{{ item }}</span>
-      </label>
+    <div class="position-absolute row justify-content-between w-100 h-100">
+      <div
+          v-for="direction in dice.directions"
+          :key="direction"
+          class="col-4 align-self-center"
+      >
+        <input
+            :id="direction"
+            :value="direction"
+            class="btn-check"
+            type="radio"
+            :checked="dice.direction === direction"
+            @change="dice.setDirection(direction)"
+        >
+        <label class="btn btn-light w-100" :for="direction">
+          {{ dice.getDirectionTitle(direction) }}
+        </label>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
-import {DIRECTIONS, variants} from "@/components/TheDice/config";
+import Dice from '@/services/Dice';
 
 export default {
   name: 'TheDice',
-
   props: {
-    position: {
-      type: Number,
-      validator(value) {
-        return value >= 0 && value < 24;
-      }
-    }
-  },
-
-  data() {
-    return {
-      direction: null,
-      variants,
-      directions: DIRECTIONS,
-    };
-  },
-
-  computed: {
-    current() {
-      return this.variants[this.position];
-    }
-  },
-
-  watch: {
-    direction: {
-      handler(value, old) {
-        if (value !== old) {
-          this.$emit('update:available', this.current.moves[value]);
-        }
-      },
-    },
-
-    position: {
-      handler() {
-        this.direction = null;
-      }
-    }
+    dice: Dice
   }
 }
 </script>
 
 <style lang="scss">
-.controls {
-  margin-top: 20px;
+$size: 6vh;
+$offset: calc($size / 2);
+
+.the-dice {
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .dice {
   position: relative;
-  width: 60px;
-  height: 60px;
+  width: $size;
+  height: $size;
   transform-style: preserve-3d;
   transition: transform .3s;
 }
+
 .side {
   width: 100%;
   height: 100%;
@@ -95,64 +79,71 @@ export default {
 
   &:before {
     content: "";
-    width: 7px;
-    height: 7px;
+    width: 1vh;
+    height: 1vh;
     background-color: #222;
     border-radius: 50%;
   }
 }
+
 .one {
-  transform: translateZ(32px);
+  transform: translateZ($offset);
 }
+
 .two {
-  transform: translateX(-32px) rotateY(-90deg);
+  transform: translateX(-$offset) rotateY(-90deg);
+
   &:before {
     background: transparent;
     box-shadow:
-        #222 -10px -10px 0px 0px,
-        #222 10px 10px 0px 0px;
+        #222 -1.25vh -1.25vh 0px 0px,
+        #222 1.25vh 1.25vh 0px 0px;
   }
 }
+
 .three {
-  transform: translateY(32px) rotateX(90deg);
+  transform: translateY($offset) rotateX(90deg);
   &:before {
     box-shadow:
-        #222 -10px 10px 0px 0px,
-        #222 10px -10px 0px 0px;
+        #222 -1.25vh 1.25vh 0px 0px,
+        #222 1.25vh -1.25vh 0px 0px;
   }
 }
+
 .four {
-  transform: translateY(-32px) rotateX(90deg);
+  transform: translateY(-$offset) rotateX(90deg);
   &:before {
     background: transparent;
     box-shadow:
-        #222 -10px 10px 0px 0px,
-        #222 -10px -10px 0px 0px,
-        #222 10px 10px 0px 0px,
-        #222 10px -10px 0px 0px;
+        #222 -1.25vh 1.25vh 0px 0px,
+        #222 -1.25vh -1.25vh 0px 0px,
+        #222 1.25vh 1.25vh 0px 0px,
+        #222 1.25vh -1.25vh 0px 0px;
   }
 }
+
 .five {
-  transform: translateX(32px) rotateY(90deg);
+  transform: translateX($offset) rotateY(90deg);
   &:before {
     box-shadow:
-        #222 -10px -10px 0px 0px,
-        #222 -10px 10px 0px 0px,
-        #222 10px -10px 0px 0px,
-        #222 10px 10px 0px 0px;
+        #222 -1.25vh -1.25vh 0px 0px,
+        #222 -1.25vh 1.25vh 0px 0px,
+        #222 1.25vh -1.25vh 0px 0px,
+        #222 1.25vh 1.25vh 0px 0px;
   }
 }
+
 .six {
-  transform: translateZ(-32px);
+  transform: translateZ(-$offset);
   &:before {
     background: transparent;
     box-shadow:
-        #222 -10px -10px 0px 0px,
-        #222 -10px 0px 0px 0px,
-        #222 -10px 10px 0px 0px,
-        #222 10px -10px 0px 0px,
-        #222 10px 0px 0px 0px,
-        #222 10px 10px 0px 0px;
+        #222 -1.25vh -1.25vh 0px 0px,
+        #222 -1.25vh 0px 0px 0px,
+        #222 -1.25vh 1.25vh 0px 0px,
+        #222 1.25vh -1.25vh 0px 0px,
+        #222 1.25vh 0px 0px 0px,
+        #222 1.25vh 1.25vh 0px 0px;
   }
 }
 </style>

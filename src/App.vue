@@ -1,97 +1,115 @@
 <template>
-  <div class="game-board">
-    <the-map
-        :available="available"
-        :scheme="scheme"
-        :drag="drag"
-        :robot="robot"
-        class="game-board__column"
-        @update:drop="onDrop"
-        @update:position="setPosition"
-    ></the-map>
+  <div class="game-board h-100">
+    <div class="container h-100 position-relative">
+      <div class="col h-100">
+        <div class="p-4 h-100">
+          <the-map
+              :dice="dice"
+              :drag="drag"
+              :robot="robot"
+              class="game-board__column"
+              @update:drop="robot.setSpot($event.index, $event.effect)"
+              @update:bounds="bounds = $event"
+          ></the-map>
+        </div>
+      </div>
 
-    <the-legend
-        v-model:drag="drag"
-        :is-edit="isEdit"
-        :position="position"
-        class="game-board__column"
-        @update:available="available = $event"
-    >
-      <button
-          v-if="isEdit"
-          @click="isEdit = false"
+      <div
+          class="content-board position-absolute"
+          :style="{
+            'width': `${bounds.width/3.25}px`,
+            'height': `${bounds.height/2}px`
+          }"
       >
-        Закончить редактирование
-      </button>
-    </the-legend>
+        <div class="content-board__wrapper h-100">
+          <the-dice
+              v-if="!isEdit"
+              :dice="dice"
+          ></the-dice>
+
+          <div
+              v-else
+              class="p-2"
+              style="color: #fff"
+          >
+            <p>
+              Этот инструмент создан для того, чтобы помочь в прохождении Зала Экзорцизма во Дворце Рассвета.
+            </p>
+            <p>
+              Разместите необходимые ячейки на доске, и нажмите кнопку Начать.
+            </p>
+            <button
+                class="btn btn-light mt-4"
+                @click="isEdit = false"
+            >
+              Начать
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <the-sidebar v-if="isEdit">
+      <the-legend
+          v-model:drag="drag"
+          :robot="robot"
+          class="game-board__column"
+      ></the-legend>
+    </the-sidebar>
   </div>
 </template>
 
 <script>
-import TheMap from './components/TheMap/TheMap.vue'
-import TheLegend from './components/TheLegend/TheLegend.vue'
-import Robot from './services/Robot'
-import { SCHEME } from './scheme';
+import Robot from '@/services/Robot';
+import Dice from '@/services/Dice';
+
+import TheMap from '@/components/TheMap/TheMap.vue';
+import TheLegend from '@/components/TheLegend.vue';
+import TheSidebar from '@/components/TheSidebar.vue';
+import TheDice from '@/components/TheDice/TheDice.vue';
 
 export default {
   name: 'App',
 
   components: {
     TheMap,
-    TheLegend
+    TheLegend,
+    TheSidebar,
+    TheDice
   },
 
   data() {
     return {
       isEdit: true,
-      robot: new Robot(),
       drag: false,
-      available: null,
-      position: 0,
-      scheme: SCHEME
+
+      robot: new Robot(),
+      dice: new Dice(),
+
+      bounds: {width: 10, height: 10}
     };
   },
-
-  methods: {
-    onDrop({ index, effect }) {
-      if (!['in', 'out'].includes(this.scheme[index].value)) {
-        // const group = this.scheme.filter(cell => cell.value === effect)
-        // const order = group.map(cell => cell.order).length
-
-        // console.log(order);
-        // if (order > 3)
-
-        this.scheme[index].value = effect;
-
-        // this.scheme[index].order = effect;
-      }
-    },
-
-    setPosition({ position, value }) {
-      this.position = position;
-      this.robot.move(Number(value));
-    },
-  }
 }
 </script>
 
 <style lang="scss">
+html,
 body {
-  margin: 0;
+  height: 100%;
 }
 
-html, body, #app {
-  height: 100%;
+.content-board {
+  background-color: rgba(255, 255, 255, .2);
+  top: 25vh;
+  right: 0;
+  bottom: 0;
+  left: -20vh;
+  margin: auto;
+  border-radius: 50px;
 }
 
 .game-board {
-  display: flex;
   height: 100%;
-  background-color: #222;
   background-image: url(@/assets/bg.png);
-
-  &__column {
-    padding: 20px;
-  }
 }
 </style>

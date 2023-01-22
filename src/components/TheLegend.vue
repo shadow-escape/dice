@@ -1,53 +1,27 @@
 <template>
-  <div class="controls">
-    <div v-if="isEdit">
-      <div
-          v-for="item in legend"
-          :key="`control-${item}`"
-          :id="item"
-          class="control"
-          :class="`control-${item}`"
-          draggable="true"
-          @dragstart="onDragStart($event, item)"
-          @dragend="onDragEnd"
-      ></div>
-    </div>
-
-    <the-dice
-        v-else
-        :position="position"
-        @update:available="$emit('update:available', $event)"
-    ></the-dice>
-
-    <slot></slot>
+  <div class="d-flex flex-column align-items-center">
+    <div
+        v-for="item in this.robot.legend"
+        :key="`control-${item}`"
+        :id="item"
+        class="control m-2"
+        :class="`control-${item}`"
+        draggable="true"
+        @dragstart="onDragStart($event, item)"
+        @dragend="onDragEnd"
+    ></div>
   </div>
 </template>
 
 <script>
-import TheDice from '../TheDice/TheDice.vue';
+import Robot from '@/services/Robot';
 
 export default {
   name: 'TheLegend',
 
-  components: {
-    TheDice
-  },
-
   props: {
-    isEdit: Boolean,
     drag: Boolean,
-    position: {
-      type: Number,
-      validator(value) {
-        return value >= 0 && value < 24;
-      }
-    },
-  },
-
-  data() {
-    return {
-      legend: ['none', 'battery', 'random', 'reverse']
-    }
+    robot: Robot
   },
 
   methods: {
@@ -73,15 +47,12 @@ export default {
 
 <style lang="scss">
 .control {
-  width: 9.75vh;
-  height: 9.75vh;
+  width: 10vh;
+  height: 10vh;
   border-radius: 50%;
-  border: 2px solid #fff;
-  margin: 20px;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
-  box-shadow: 0 0 1px 2px #000;
   cursor: grab;
 
   &.ghost {
@@ -95,7 +66,7 @@ export default {
     box-shadow: 0 0 15px -5px #fff, 0 0 1px 2px #000;
   }
 
-  &-none {
+  &-empty {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+CiAgPHBhdGggZmlsbD0iI2QzZDNkMyIgZD0iTTAgMGg0MHY0MEgweiIvPgo8L3N2Zz4K");
   }
 

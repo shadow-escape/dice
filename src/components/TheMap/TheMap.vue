@@ -1,31 +1,104 @@
 <template>
-  <svg class="the-map" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 832 736">
-    <symbol id="battery" viewBox="-4 3 32 32" width="100" height="100">
-      <path d="M15 21.04H2.2c-1.24 0-2.2-1-2.2-2.2v-5.68c0-1.24 1-2.2 2.2-2.2H15c1.2 0 2.2.96 2.2 2.16.92.16 1.6.92 1.6 1.88v1.92c0 .96-.68 1.72-1.6 1.88v.08c.04 1.2-.96 2.16-2.2 2.16zM2.2 12.6c-.32 0-.56.24-.56.56v5.68c0 .32.24.56.56.56H15c.32 0 .56-.24.56-.56v-.88c0-.44.36-.84.84-.84h.52c.12 0 .24-.12.24-.24v-1.92c0-.12-.12-.24-.24-.24h-.52c-.44 0-.84-.36-.84-.84v-.76c0-.32-.24-.56-.56-.56H2.2zM4 18.16c-.44 0-.84-.36-.84-.84v-2.68c0-.44.36-.84.84-.84s.84.36.84.84v2.68c-.04.48-.4.84-.84.84zm3.08 0c-.44 0-.84-.36-.84-.84v-2.68c0-.44.36-.84.84-.84s.84.36.84.84v2.68c-.04.48-.4.84-.84.84zm3.08 0c-.44 0-.84-.36-.84-.84v-2.68c0-.44.36-.84.84-.84s.84.36.84.84v2.68c0 .48-.4.84-.84.84zm3.08 0c-.44 0-.84-.36-.84-.84v-2.68c0-.44.36-.84.84-.84.44 0 .84.36.84.84v2.68c0 .48-.4.84-.84.84z"/>
+  <svg
+      ref="the-map"
+      class="the-map h-100"
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 832 736"
+  >
+    <symbol id="battery" viewBox="0 0 40 40" width="100" height="100">
+      <path d="M25.6 25H12.8c-1.2 0-2.2-1-2.2-2.2v-5.7c0-1.2 1-2.2 2.2-2.2h12.8c1.2 0 2.2 1 2.2 2.2.9.2 1.6.9 1.6 1.9v1.9c0 1-.7 1.7-1.6 1.9v.1c0 1.2-1 2.1-2.2 2.1zm-12.8-8.4c-.3 0-.6.2-.6.6v5.7c0 .3.2.6.6.6h12.8c.3 0 .6-.2.6-.6V22c0-.4.4-.8.8-.8h.5c.1 0 .2-.1.2-.2v-2c0-.1-.1-.2-.2-.2H27c-.4 0-.8-.4-.8-.8v-.8c0-.3-.2-.6-.6-.6H12.8zm1.8 5.6c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3.1 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3.1 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8s.8.4.8.8v2.7c.1.4-.3.8-.8.8z"/>
     </symbol>
 
-    <symbol id="reverse" viewBox="-6 -4 40 40" width="100" height="100">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 7h10a6 6 0 0 1 0 12H4M4 7l4-4M4 7l4 4"/>
+    <symbol id="reverse" viewBox="0 0 40 40" width="100" height="100">
+      <path d="M12 14h10c3.3 0 6 2.7 6 6s-2.7 6-6 6H12m0-12 4-4m-4 4 4 4"/>
     </symbol>
 
     <symbol id="random" viewBox="0 0 40 40" width="100" height="100">
-      <path d="M20.191 4.816a8.725 8.725 0 0 0-4.212-1.07 8.793 8.793 0 0 0-4.281 1.105l.045-.023c-1.798 1.001-2.994 2.89-2.994 5.058l.001.123v-.006A1.25 1.25 0 0 0 10 11.249h.004a1.25 1.25 0 0 0 1.246-1.25v-.004a3.278 3.278 0 0 1 1.733-2.997l.018-.009a6.302 6.302 0 0 1 2.977-.737c1.086 0 2.108.271 3.004.749l-.034-.017a3.314 3.314 0 0 1 1.803 2.947l-.001.07v-.003c0 2.48-.668 3.062-2.289 3.872-2.46 1.176-3.709 3.574-3.711 7.128 0 .69.559 1.249 1.249 1.25h.002c.69 0 1.249-.559 1.249-1.249v-.001c.002-3.388 1.307-4.403 2.309-4.882 2.202-.864 3.732-2.971 3.732-5.435a6.02 6.02 0 0 0-.043-.715l.003.028v-.063a5.808 5.808 0 0 0-3.029-5.102l-.03-.015zM16.88 25.119c-.228-.218-.538-.352-.88-.352s-.652.134-.88.353h.001a.965.965 0 0 0-.278.394l-.002.007c-.051.136-.08.292-.08.456v.026-.001.006c0 .341.138.649.36.873a1.203 1.203 0 0 0 1.759.001l.001-.001c.229-.224.374-.534.38-.878v-.001a1.36 1.36 0 0 0-.104-.489l.003.009a.966.966 0 0 0-.278-.399l-.001-.001z"/>
+      <path d="M24.2 9.3c-1.3-.7-2.7-1.1-4.2-1.1s-3 .4-4.3 1.1c-1.8 1-3 2.9-3 5.1v.1c0 .7.6 1.2 1.2 1.2.7 0 1.2-.6 1.2-1.2 0-1.2.6-2.4 1.7-3 .9-.5 1.9-.7 3-.7s2.1.3 3 .7c1.1.6 1.8 1.7 1.8 2.9v.1c0 2.5-.7 3.1-2.3 3.9-2.5 1.2-3.7 3.6-3.7 7.1 0 .7.6 1.2 1.2 1.2.7 0 1.2-.6 1.2-1.2 0-3.4 1.3-4.4 2.3-4.9 2.2-.9 3.7-3 3.7-5.4V14.4c.2-2.1-.9-4.1-2.8-5.1zm-3.3 20.3c-.2-.2-.5-.4-.9-.4-.3 0-.7.1-.9.4-.1.1-.2.2-.3.4-.1.1-.1.3-.1.5 0 .3.1.6.4.9.5.5 1.2.5 1.7.1l.1-.1c.2-.2.4-.5.4-.9 0-.2 0-.3-.1-.5-.1-.1-.2-.3-.3-.4z"/>
+    </symbol>
+
+    <symbol id="out" viewBox="0 0 40 40" width="100" height="100">
+      <path d="M15.8 18.6c0 3.5-2.1 5.3-4.7 5.3-2.7 0-4.5-2.1-4.5-5.1 0-3.2 2-5.3 4.7-5.3s4.5 2.1 4.5 5.1zm-7.9.2c0 2.2 1.2 4.1 3.2 4.1 2.1 0 3.2-1.9 3.2-4.2 0-2-1.1-4.1-3.2-4.1-2.1-.1-3.2 1.9-3.2 4.2z"/>
+      <path d="M18.8 13.6v6c0 2.3 1 3.2 2.4 3.2 1.5 0 2.5-1 2.5-3.2v-6H25v5.9c0 3.1-1.6 4.4-3.8 4.4-2.1 0-3.6-1.2-3.6-4.3v-6h1.2z"/>
+      <path d="M29.1 14.8H26v-1.1h7.5v1.1h-3.1v9h-1.3v-9z"/>
+    </symbol>
+
+    <symbol id="in" viewBox="0 0 40 40" width="100" height="100">
+      <path d="M15.4 13.6v10.1h-1.3V13.6h1.3z"/>
+      <path d="M17.7 23.7V13.6h1.4l3.2 5.1c.8 1.2 1.3 2.2 1.8 3.3-.1-1.3-.2-2.6-.2-4.2v-4.2h1.2v10.1H24l-3.2-5.1c-.7-1.1-1.4-2.3-1.9-3.4.1 1.3.1 2.5.1 4.2v4.3h-1.3z"/>
+    </symbol>
+
+    <symbol id="robot" viewBox="0 0 40 40" width="100" height="100">
+      <path d="M23.3 19.2H25V25h-1.7z" fill="#5a8bb0"/>
+      <path d="M15 19.2h1.7V25H15z" fill="#93c7ef"/>
+      <path d="M17.7 22.9v2.3c0 1.3 1 2.3 2.3 2.3s2.3-1 2.3-2.3v-2.3h-4.6z" fill="#93c7ef"/>
+      <path d="M20 27.5c1.3 0 2.3-1 2.3-2.3v-2.3H20" fill="#5a8bb0"/>
+      <path fill="#cce9f9" d="M24.2 25.8v-8.3c0-2.3-1.9-4.2-4.2-4.2s-4.2 1.9-4.2 4.2v8.3h8.4z"/>
+      <path d="M24.2 25.8v-8.3c0-2.3-1.9-4.2-4.2-4.2v12.5h4.2z" fill="#93c7ef"/>
+      <path d="M17.9 16.7h4.2v1.2h-4.2z" fill="#3c5d76"/>
+      <path d="M18.8 19.2c0 .7.6 1.2 1.2 1.2.7 0 1.2-.6 1.2-1.2h-2.4z" fill="#3c5d76"/>
+      <path d="M20 16.7h2.1v1.2H20z" fill="#1e2e3b"/>
+      <path d="M20 19.2v1.2c.7 0 1.2-.6 1.2-1.2H20z" fill="#1e2e3b"/>
+      <circle cx="17.5" cy="23.1" r=".6" fill="#3c5d76"/>
+      <circle cx="20" cy="23.1" r=".6" fill="#1e2e3b"/>
+      <circle cx="22.5" cy="23.1" r=".6" fill="#1e2e3b"/>
     </symbol>
 
     <defs>
-      <pattern id="cell-battery" x="0" y="0" width="100%" height="100%">
+      <pattern id="spot-battery" width="100%" height="100%">
         <rect x="0" y="0" width="100%" height="100%" fill="#007650"></rect>
-        <use xlink:href="#battery" fill="#00fb5f"/>
+        <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
       </pattern>
 
-      <pattern id="cell-reverse" x="0" y="0" width="100%" height="100%">
+      <pattern id="spot-reverse" width="100%" height="100%">
         <rect x="0" y="0" width="100%" height="100%" fill="#006897"></rect>
-        <use xlink:href="#reverse" fill="none" stroke="#00fdfd"/>
+        <use xlink:href="#reverse" x="-8px" y="-8px" fill="none" stroke="#00fdfd" stroke-linecap="round" stroke-width="2"/>
       </pattern>
 
-      <pattern id="cell-random" x="0" y="0" width="100%" height="100%">
+      <pattern id="spot-random" width="100%" height="100%">
         <rect x="0" y="0" width="100%" height="100%" fill="#88841d"/>
-        <use xlink:href="#random" fill="#fffd51"/>
+        <use xlink:href="#random" x="-8px" y="-8px" fill="#fffd51"/>
+      </pattern>
+
+      <pattern id="spot-out" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#551a18"/>
+        <use xlink:href="#out" x="-10px" y="-6px" fill="#ff2b2b"/>
+      </pattern>
+
+      <pattern id="spot-in" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#007866"/>
+        <use xlink:href="#in" x="-8px" y="-6px" fill="#00fc90"/>
+      </pattern>
+
+      <pattern id="spot-robot" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#d3d3d3"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-in" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#007866"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-out" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#551a18"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-on-reverse" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#006897"></rect>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-on-random" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#88841d"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-on-battery" width="100%" height="100%">
+        <rect x="0" y="0" width="100%" height="100%" fill="#007650"></rect>
+        <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
     </defs>
 
@@ -41,16 +114,14 @@
     <circle
         v-for="(node, index) in nodes"
         :key="`position-${index}`"
-        :class="[`cell-${scheme[index].value}`,
-            {'cell-drop': drag},
-            {'cell-robot': robot.position === index},
-            {'cell-available': cells.some(cell => cell.index === index)},
-            {'cell-over': hover === index}
+        v-bind="{cx: node.x, cy: node.y, r: 40}"
+        :class="[`spot-${this.robot.getSpot(index).effect}`,
+            {'spot-drop': drag},
+            {'spot-robot': robot.position === index},
+            {'spot-available': spots.some(spot => spot.index === index)},
+            {'spot-over': hover === index}
         ]"
         :data-index="index"
-        :cx="node.x"
-        :cy="node.y"
-        r="40"
         @drop="onDrop"
         @dragenter.prevent
         @dragover.prevent="hover = index"
@@ -61,43 +132,49 @@
 </template>
 
 <script>
-import {nodes, lines} from "@/components/TheMap/shape";
-import Robot from "@/services/Robot";
+import {nodes} from './shape';
+import Robot from '@/services/Robot';
+import Dice from '@/services/Dice';
 
 export default {
   name: 'TheMap',
 
   props: {
-    available: Object,
-    scheme: Array,
     drag: Boolean,
-    robot: {
-      type: Robot
-    }
+    robot: Robot,
+    dice: Dice
   },
 
   data() {
     return {
       nodes,
-      lines,
       hover: false
     };
   },
 
   computed: {
-    cells() {
-      if (this.available) {
+    spots() {
+      if (this.dice.steps) {
         if (this.robot.direction > 0) {
-          return Object.keys(this.available).map(value => ({
+          return Object.keys(this.dice.steps).map(value => ({
             index: this.robot.position + Number(value),
             value: Number(value),
-            moves: this.available[value]
+            moves: this.dice.steps[value]
           }));
         }
       }
 
       return []
     }
+  },
+
+  mounted() {
+    window.addEventListener('resize', this.onResize);
+    this.onResize();
+  },
+
+  unmounted() {
+    window.removeEventListener('resize', this.onResize);
   },
 
   methods: {
@@ -111,14 +188,26 @@ export default {
     },
 
     move(index) {
-      const needle = this.cells.find(cell => cell.index === index)
+      const needle = this.spots.find(spot => spot.index === index)
 
       if (needle) {
-        this.$emit('update:position', {
-          position: needle.moves.position,
-          value: needle.value
-        })
+        const { value, moves } = needle
+
+        this.dice.setPosition(moves.position)
+        this.robot.move(value)
       }
+    },
+
+    onResize() {
+      const {
+        clientWidth,
+        clientHeight
+      } = this.$refs['the-map'];
+
+      this.$emit('update:bounds', {
+        width: clientWidth,
+        height: clientHeight
+      });
     }
   }
 }
@@ -146,35 +235,51 @@ export default {
 
   circle {
     fill: lightgray;
+  }
+
+  .spot-drop:not(.spot-in):not(.spot-out) {
+    // filter: drop-shadow(0 0 5px #fff);
     stroke: #fff;
-    stroke-width: 2px;
-    transition: fill .1s ease-in-out, stroke .1s linear, .1s filter .1s ease-in-out;
-  }
-
-  .cell-drop:not(.cell-in):not(.cell-out) {
-    filter: drop-shadow(0 0 5px #fff);
-    stroke: #000;
-    stroke-width: 5px;
+    stroke-width: 1px;
     stroke-dasharray: 10;
-    paint-order: stroke;
+    //paint-order: stroke;
   }
 
-  .cell-in { fill: red; }
-  .cell-out { fill: #00fc9d; }
-  .cell-battery { fill: url(#cell-battery); }
-  .cell-reverse { fill: url(#cell-reverse); }
-  .cell-random { fill: url(#cell-random); }
-  .cell-robot { fill: #000 }
-  .cell-available {
-    stroke: green;
-    stroke-width: 3px;
+  .spot-in { fill: url(#spot-in); }
+  .spot-out { fill: url(#spot-out); }
+  .spot-battery { fill: url(#spot-battery); }
+  .spot-reverse { fill: url(#spot-reverse); }
+  .spot-random { fill: url(#spot-random); }
+  .spot-robot {
+    fill: url(#spot-robot);
+
+    &.spot-in { fill: url(#spot-robot-in); }
+    &.spot-out { fill: url(#spot-robot-out); }
+    &.spot-reverse { fill: url(#spot-robot-on-reverse); }
+    &.spot-random { fill: url(#spot-robot-on-random); }
+    &.spot-battery { fill: url(#spot-robot-on-battery); }
+  }
+
+  .spot-available {
+    stroke: #f73737;
+    stroke-width: 4px;
+    stroke-dasharray: 4;
     cursor: pointer;
+    animation: dash 60s linear infinite;
+    paint-order: fill;
 
-    &:hover { stroke: red; }
+    &:hover {
+      fill: url(#spot-robot);
+
+      &.spot-in { fill: url(#spot-robot-in); }
+      &.spot-out { fill: url(#spot-robot-out); }
+      &.spot-reverse { fill: url(#spot-robot-on-reverse); }
+      &.spot-random { fill: url(#spot-robot-on-random); }
+      &.spot-battery { fill: url(#spot-robot-on-battery); }
+    }
   }
-  .cell-over {
+  .spot-over {
     filter: none !important;
-    stroke: none !important;
     fill: #a9cdbb !important;
   }
 }

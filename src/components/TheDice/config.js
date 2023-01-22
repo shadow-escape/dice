@@ -3,6 +3,11 @@ export const DIRECTIONS = {
     UP: 'UP'
 }
 
+export const LOC = {
+    [DIRECTIONS.RIGHT]: '→→',
+    [DIRECTIONS.UP]: '↑↑'
+}
+
 export const variants = [
     {// 0
         value: 1, // 1-2
