@@ -1,26 +1,70 @@
-import {plainToClass} from 'class-transformer';
-import {MAPPINGS, SCHEME} from '@/scheme';
+import {plainToClass} from 'class-transformer'
+import {MAPPINGS, SCHEME} from '@/scheme'
+import Dice from '@/services/Dice'
+import {ReverseSpot} from "@/services/model/Spot"
 
 export default class Robot {
     position = 0
     direction = 1
 
-    scheme = SCHEME.map(spot => plainToClass(MAPPINGS[spot.effect], spot))
+    dice = new Dice()
+
+    scheme = SCHEME.map(effect => plainToClass(MAPPINGS[effect], { effect }))
 
     legend = ['empty', 'battery', 'random', 'reverse']
 
-    move(value) {
-        this.position += value * this.direction;
+    /**
+     * Разворачиваем робота
+     */
+    reverse() {
+        this.direction *= -1
     }
 
-    reverse() {
-        this.direction *= -1;
+    /**
+     * Перемещение робота на указанную позицию
+     */
+    move(index) {
+        const { moves = false } = this.available.find(spot => spot.index === index)
+
+        if (moves) {
+            this.dice.setPosition(moves.position)
+            this.position = index
+
+            if (this.scheme[this.position] instanceof ReverseSpot) {
+                this.reverse()
+            }
+        }
+    }
+
+    /**
+     * Доступные позицци для текущего положения кубика
+     */
+    get available() {
+        if (this.dice.steps) {
+            return Object.keys(this.dice.steps).map(value => {
+                let index = this.position + Number(value) * this.direction
+
+                if (index > 39) {
+                    index = index % 40
+                } else if (index < 0) {
+                    index = 40 + index
+                }
+
+                return {
+                    index,
+                    value: Number(value),
+                    moves: this.dice.steps[value]
+                }
+            })
+        }
+
+        return []
     }
 
     setSpot(index, effect) {
         if (!['in', 'out'].includes(this.scheme[index].effect)) {
             if (this.getLimit(effect) < 4) {
-                this.scheme[index] = new MAPPINGS[effect]();
+                this.scheme[index] = new MAPPINGS[effect]()
             } else {
                 alert(`Достигнут лимит для этого типа ячейки`)
             }

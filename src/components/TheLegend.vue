@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import Robot from '@/services/Robot';
+import Robot from '@/services/Robot'
 
 export default {
   name: 'TheLegend',
@@ -26,22 +26,21 @@ export default {
 
   methods: {
     onDragStart(event, item) {
-      this.$emit('update:drag', true);
-
-      event.dataTransfer.setData('text/plain', item);
+      this.$emit('update:drag', true)
 
       const ghost = document.createElement('div')
-      ghost.classList.add('control', `control-${item}`, 'ghost');
-      document.body.appendChild(ghost);
+      ghost.classList.add('control', `control-${item}`, 'ghost')
+      document.body.appendChild(ghost)
 
-      event.dataTransfer.setDragImage(ghost, 40, 40);
+      event.dataTransfer.setDragImage(ghost, 40, 40)
+      event.dataTransfer.setData('text/plain', item)
     },
 
     onDragEnd() {
-      document.querySelectorAll('.ghost').forEach(e => e.remove());
-      this.$emit('update:drag', false);
-    },
-  },
+      document.querySelectorAll('.ghost').forEach(e => e.remove())
+      this.$emit('update:drag', false)
+    }
+  }
 }
 </script>
 

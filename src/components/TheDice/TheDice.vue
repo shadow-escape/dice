@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import Dice from '@/services/Dice';
+import Dice from '@/services/Dice'
 
 export default {
   name: 'TheDice',

@@ -1,4 +1,4 @@
-import {StartSpot, FinishSpot, BatterySpot, RandomSpot, ReverseSpot, EmptySpot} from '@/services/model/Spot';
+import {StartSpot, FinishSpot, BatterySpot, RandomSpot, ReverseSpot, EmptySpot} from '@/services/model/Spot'
 
 export const MAPPINGS = {
     empty: EmptySpot,
@@ -10,44 +10,8 @@ export const MAPPINGS = {
 }
 
 export const SCHEME = [
-    {effect: 'in'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'out'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'},
-    {effect: 'empty'}
-];
+    'in',
+    ...Array(21).fill('empty'),
+    'out',
+    ...Array(17).fill('empty')
+]

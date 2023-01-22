@@ -4,7 +4,6 @@
       <div class="col h-100">
         <div class="p-4 h-100">
           <the-map
-              :dice="dice"
               :drag="drag"
               :robot="robot"
               class="game-board__column"
@@ -24,7 +23,7 @@
         <div class="content-board__wrapper h-100">
           <the-dice
               v-if="!isEdit"
-              :dice="dice"
+              :dice="robot.dice"
           ></the-dice>
 
           <div
@@ -60,13 +59,12 @@
 </template>
 
 <script>
-import Robot from '@/services/Robot';
-import Dice from '@/services/Dice';
+import Robot from '@/services/Robot'
 
-import TheMap from '@/components/TheMap/TheMap.vue';
-import TheLegend from '@/components/TheLegend.vue';
-import TheSidebar from '@/components/TheSidebar.vue';
-import TheDice from '@/components/TheDice/TheDice.vue';
+import TheMap from '@/components/TheMap/TheMap.vue'
+import TheLegend from '@/components/TheLegend.vue'
+import TheSidebar from '@/components/TheSidebar.vue'
+import TheDice from '@/components/TheDice/TheDice.vue'
 
 export default {
   name: 'App',
@@ -84,10 +82,9 @@ export default {
       drag: false,
 
       robot: new Robot(),
-      dice: new Dice(),
 
       bounds: {width: 10, height: 10}
-    };
+    }
   },
 }
 </script>

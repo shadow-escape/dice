@@ -15,8 +15,8 @@ export class FinishSpot extends Spot {
 }
 
 export class BatterySpot extends Spot {
-    effect = 'battery';
-    completed;
+    effect = 'battery'
+    completed
     order
 }
 

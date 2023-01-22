@@ -112,13 +112,13 @@
     />
 
     <circle
-        v-for="(node, index) in nodes"
+        v-for="([cx, cy], index) in nodes"
         :key="`position-${index}`"
-        v-bind="{cx: node.x, cy: node.y, r: 40}"
+        v-bind="{cx, cy, r: 40}"
         :class="[`spot-${this.robot.getSpot(index).effect}`,
             {'spot-drop': drag},
             {'spot-robot': robot.position === index},
-            {'spot-available': spots.some(spot => spot.index === index)},
+            {'spot-available': robot.available.some(spot => spot.index === index)},
             {'spot-over': hover === index}
         ]"
         :data-index="index"
@@ -126,15 +126,15 @@
         @dragenter.prevent
         @dragover.prevent="hover = index"
         @dragleave="hover = false"
-        @click="move(index)"
+        @click="robot.move(index)"
     />
   </svg>
 </template>
 
 <script>
-import {nodes} from './shape';
-import Robot from '@/services/Robot';
-import Dice from '@/services/Dice';
+import { chunk } from 'lodash'
+import {nodes} from './shape'
+import Robot from '@/services/Robot'
 
 export default {
   name: 'TheMap',
@@ -142,72 +142,38 @@ export default {
   props: {
     drag: Boolean,
     robot: Robot,
-    dice: Dice
   },
 
   data() {
     return {
-      nodes,
+      nodes: chunk(nodes, 2),
       hover: false
-    };
-  },
-
-  computed: {
-    spots() {
-      if (this.dice.steps) {
-        if (this.robot.direction > 0) {
-          return Object.keys(this.dice.steps).map(value => ({
-            index: this.robot.position + Number(value),
-            value: Number(value),
-            moves: this.dice.steps[value]
-          }));
-        }
-      }
-
-      return []
     }
   },
 
   mounted() {
-    window.addEventListener('resize', this.onResize);
-    this.onResize();
+    window.addEventListener('resize', this.onResize)
+    this.onResize()
   },
 
   unmounted() {
-    window.removeEventListener('resize', this.onResize);
+    window.removeEventListener('resize', this.onResize)
   },
 
   methods: {
     onDrop(event) {
-      this.hover = false;
+      this.hover = false
 
       this.$emit('update:drop', {
         index: event.target.dataset.index,
         effect: event.dataTransfer.getData('text')
-      });
-    },
-
-    move(index) {
-      const needle = this.spots.find(spot => spot.index === index)
-
-      if (needle) {
-        const { value, moves } = needle
-
-        this.dice.setPosition(moves.position)
-        this.robot.move(value)
-      }
+      })
     },
 
     onResize() {
-      const {
-        clientWidth,
-        clientHeight
-      } = this.$refs['the-map'];
+      const {clientWidth: width, clientHeight: height} = this.$refs['the-map']
 
-      this.$emit('update:bounds', {
-        width: clientWidth,
-        height: clientHeight
-      });
+      this.$emit('update:bounds', {width, height})
     }
   }
 }
@@ -261,12 +227,9 @@ export default {
   }
 
   .spot-available {
-    stroke: #f73737;
+    stroke: #ff0000;
     stroke-width: 4px;
-    stroke-dasharray: 4;
     cursor: pointer;
-    animation: dash 60s linear infinite;
-    paint-order: fill;
 
     &:hover {
       fill: url(#spot-robot);
@@ -278,8 +241,8 @@ export default {
       &.spot-battery { fill: url(#spot-robot-on-battery); }
     }
   }
+
   .spot-over {
-    filter: none !important;
     fill: #a9cdbb !important;
   }
 }

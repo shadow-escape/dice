@@ -1,5 +1,5 @@
-import {DIRECTIONS, LOC} from '@/components/TheDice/config';
-import {variants} from '@/components/TheDice/config';
+import {DIRECTIONS, LOC} from '@/components/TheDice/config'
+import {variants} from '@/components/TheDice/config'
 
 export default class Dice {
     position = 0
@@ -9,15 +9,15 @@ export default class Dice {
     directions = Object.values(DIRECTIONS)
 
     setPosition(position) {
-        this.position = position;
-        this.direction = null;
+        this.position = position
+        this.direction = null
     }
 
     setDirection(direction) {
         if (this.directions.includes(direction)) {
-            this.direction = direction;
+            this.direction = direction
         } else {
-            this.direction = null;
+            this.direction = null
         }
     }
 
@@ -25,17 +25,20 @@ export default class Dice {
      * Получение доступных ходов для текущей позиции кубика
      */
     get steps() {
-        return variants[this.position].moves[this.direction];
+        return variants[this.position].moves[this.direction]
     }
 
     /**
      * Координаты для текущей позиции кубика
      */
     get coordinates() {
-        return variants[this.position].coordinates;
+        return variants[this.position].coordinates
     }
 
+    /**
+     * Наименование для кнопок
+     */
     getDirectionTitle(direction) {
-        return LOC[direction];
+        return LOC[direction]
     }
 }
