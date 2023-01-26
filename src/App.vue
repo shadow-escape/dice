@@ -1,6 +1,6 @@
 <template>
   <div class="game-board h-100">
-    <div class="container h-100 position-relative">
+    <div class="game-board__inner">
       <div class="col h-100">
         <div class="p-4 h-100">
           <the-map
@@ -16,29 +16,32 @@
       <div
           class="content-board position-absolute"
           :style="{
-            'width': `${bounds.width/3.25}px`,
-            'height': `${bounds.height/2}px`
+            'max-width': `${bounds.width * 0.3}px`,
+            'max-height': `${bounds.height * 0.5}px`,
+            'top': `${bounds.height * 0.3}px`,
+            'right': `${bounds.height * 0.215}px`
           }"
       >
         <div class="content-board__wrapper h-100">
           <the-dice
-              v-if="!isEdit"
+              v-if="!isEdit && robot.isReady"
               :dice="robot.dice"
           ></the-dice>
 
           <div
               v-else
-              class="p-2"
+              class="p-4"
               style="color: #fff"
           >
             <p>
               Этот инструмент создан для того, чтобы помочь в прохождении Зала Экзорцизма во Дворце Рассвета.
             </p>
             <p>
-              Разместите необходимые ячейки на доске, и нажмите кнопку Начать.
+              Разместите батарейки на доске, и нажмите кнопку Начать.
             </p>
             <button
                 class="btn btn-light mt-4"
+                :disabled="!robot.isReady"
                 @click="isEdit = false"
             >
               Начать
@@ -83,7 +86,7 @@ export default {
 
       robot: new Robot(),
 
-      bounds: {width: 10, height: 10}
+      bounds: {width: 10, height: 10},
     }
   },
 }
@@ -97,10 +100,10 @@ body {
 
 .content-board {
   background-color: rgba(255, 255, 255, .2);
-  top: 25vh;
+  top: 0;
   right: 0;
   bottom: 0;
-  left: -20vh;
+  left: 0;
   margin: auto;
   border-radius: 50px;
 }
@@ -108,5 +111,12 @@ body {
 .game-board {
   height: 100%;
   background-image: url(@/assets/bg.png);
+
+  &__inner {
+    display: flex;
+    height: 100%;
+    position: relative;
+    padding: 0 10%;
+  }
 }
 </style>

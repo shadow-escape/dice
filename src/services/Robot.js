@@ -1,7 +1,7 @@
 import {plainToClass} from 'class-transformer'
 import {MAPPINGS, SCHEME} from '@/scheme'
 import Dice from '@/services/Dice'
-import {ReverseSpot} from "@/services/model/Spot"
+import {BatterySpot, ReverseSpot} from '@/services/model/Spot'
 
 export default class Robot {
     position = 0
@@ -14,6 +14,13 @@ export default class Robot {
     legend = ['empty', 'battery', 'random', 'reverse']
 
     /**
+     * Текущее положение робота
+     */
+    get currentSpot() {
+        return this.scheme[this.position]
+    }
+
+    /**
      * Разворачиваем робота
      */
     reverse() {
@@ -23,17 +30,27 @@ export default class Robot {
     /**
      * Перемещение робота на указанную позицию
      */
-    move(index) {
+    async move(index) {
         const { moves = false } = this.available.find(spot => spot.index === index)
 
         if (moves) {
+            await this.dice.rotate(moves.steps)
             this.dice.setPosition(moves.position)
-            this.position = index
+            this.setPosition(index)
 
-            if (this.scheme[this.position] instanceof ReverseSpot) {
+            if (this.currentSpot instanceof ReverseSpot) {
                 this.reverse()
+            } else if (
+                this.currentSpot instanceof BatterySpot
+                && !this.currentSpot.completed
+            ) {
+                this.currentSpot.completed = true
             }
         }
+    }
+
+    setPosition(position) {
+        this.position = position
     }
 
     /**
@@ -61,6 +78,9 @@ export default class Robot {
         return []
     }
 
+    /**
+     * Маркируем ячейку
+     */
     setSpot(index, effect) {
         if (!['in', 'out'].includes(this.scheme[index].effect)) {
             if (this.getLimit(effect) < 4) {
@@ -71,11 +91,24 @@ export default class Robot {
         }
     }
 
+    /**
+     * Получаем ячейку
+     */
     getSpot(index) {
         return this.scheme[index]
     }
 
+    /**
+     * Запрашиваем количество ячеек указанного типа
+     */
     getLimit(effect) {
         return this.scheme.filter(spot => spot instanceof MAPPINGS[effect] && effect !== 'empty').length
+    }
+
+    /**
+     * Флаг начала игры
+     */
+    get isReady() {
+        return this.getLimit('battery') > 0
     }
 }

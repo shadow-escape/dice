@@ -1,11 +1,9 @@
 <template>
   <div class="the-dice position-relative">
-    <div class="dice" :style="{
-        transform: `rotateX(-15deg) rotateY(30deg)
-                  rotateX(${dice.coordinates[0] * 90}deg)
-                  rotateY(${dice.coordinates[1] * 90}deg)
-                  rotateZ(${dice.coordinates[2] * 90}deg)
-        `}">
+    <div
+        class="dice"
+        :class="{'is-frozen': dice.freeze }"
+        :style="{ transform: `rotateX(-15deg) rotateY(30deg) ${transform}` }">
       <div class="side one"></div>
       <div class="side two"></div>
       <div class="side three"></div>
@@ -41,8 +39,17 @@ import Dice from '@/services/Dice'
 
 export default {
   name: 'TheDice',
+
   props: {
     dice: Dice
+  },
+
+  computed: {
+    transform() {
+      const [x, y, z] = this.dice.coordinates
+
+      return `rotateX(${x * 90}deg) rotateY(${y * 90}deg) rotateZ(${z * 90}deg)`
+    }
   }
 }
 </script>
@@ -64,7 +71,11 @@ $offset: calc($size / 2);
   width: $size;
   height: $size;
   transform-style: preserve-3d;
-  transition: transform .3s;
+  transition: transform .25s;
+
+  &.is-frozen {
+    transition: unset !important;
+  }
 }
 
 .side {

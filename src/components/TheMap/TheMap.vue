@@ -1,7 +1,7 @@
 <template>
   <svg
       ref="the-map"
-      class="the-map h-100"
+      class="the-map"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 832 736"
   >
@@ -119,7 +119,8 @@
             {'spot-drop': drag},
             {'spot-robot': robot.position === index},
             {'spot-available': robot.available.some(spot => spot.index === index)},
-            {'spot-over': hover === index}
+            {'spot-over': hover === index},
+            {'spot-completed': robot.getSpot(index)?.completed}
         ]"
         :data-index="index"
         @drop="onDrop"
@@ -182,6 +183,7 @@ export default {
 <style lang="scss">
 .the-map {
   overflow: unset;
+  max-height: 100%;
 
   &__line {
     fill: none;
@@ -213,7 +215,13 @@ export default {
 
   .spot-in { fill: url(#spot-in); }
   .spot-out { fill: url(#spot-out); }
-  .spot-battery { fill: url(#spot-battery); }
+  .spot-battery {
+    fill: url(#spot-battery);
+
+    &.spot-completed {
+      stroke: #000000;
+    }
+  }
   .spot-reverse { fill: url(#spot-reverse); }
   .spot-random { fill: url(#spot-random); }
   .spot-robot {

@@ -14,7 +14,7 @@ export default {
 .the-sidebar {
   width: 10%;
   top: 0;
-  left: 0;
+  right: 0;
   background-color: rgba(255, 255, 255, .2);
 }
 </style>
