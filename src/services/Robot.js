@@ -13,6 +13,8 @@ export default class Robot {
 
     legend = ['empty', 'battery', 'random', 'reverse']
 
+    over = false
+
     /**
      * Текущее положение робота
      */
@@ -31,9 +33,11 @@ export default class Robot {
      * Перемещение робота на указанную позицию
      */
     async move(index) {
-        const { moves = false } = this.available.find(spot => spot.index === index)
+        const needle = this.available.find(spot => spot.index === index)
 
-        if (moves) {
+        if (needle?.moves) {
+            const { moves } = needle
+
             await this.dice.rotate(moves.steps)
             this.dice.setPosition(moves.position)
             this.setPosition(index)
@@ -105,10 +109,18 @@ export default class Robot {
         return this.scheme.filter(spot => spot instanceof MAPPINGS[effect] && effect !== 'empty').length
     }
 
+    get batteries() {
+        return this.scheme.filter(spot => spot instanceof BatterySpot && !spot.completed)
+    }
+
     /**
      * Флаг начала игры
      */
     get isReady() {
         return this.getLimit('battery') > 0
+    }
+
+    setOver(over) {
+        this.over = over
     }
 }

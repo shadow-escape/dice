@@ -16,7 +16,7 @@ export const variants = [
             [DIRECTIONS.RIGHT]: {
                 2: {position: 4, title: '↑→→', steps: [1, 0, 1, 1, 0, 0, 1, 0, -1]},
                 5: {position: 19, title: '→→↑', steps: [0, 1, 1, 0, 2, 1, 1, 2, 1]},
-                6: {position: 21, title: 'rur', steps: [0, 1, 1, 0, 1, 2, 0, 2, 2]}
+                6: {position: 21, title: '→↑→', steps: [0, 1, 1, 0, 1, 2, 0, 2, 2]}
             },
             [DIRECTIONS.UP]: {
                 3: {position: 10, title: '↑↑→', steps: [1, 0, 1, 2, 0, 1, 2, -1, 1]},

@@ -1,6 +1,9 @@
 import { createApp } from 'vue'
+import { TippyDirective } from 'tippy.vue'
 import App from './App.vue'
 
 import './assets/style/style.scss'
 
-createApp(App).mount('#app')
+const app = createApp(App)
+app.directive('tippy', TippyDirective)
+app.mount('#app')

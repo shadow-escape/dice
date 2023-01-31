@@ -1,7 +1,7 @@
 <template>
   <svg
       ref="the-map"
-      class="the-map"
+      class="the-map position-absolute top-0 bottom-0 left-0 right-0 m-auto"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 832 736"
   >
@@ -111,24 +111,11 @@
         }"
     />
 
-    <circle
+    <the-map-spot
         v-for="([cx, cy], index) in nodes"
         :key="`position-${index}`"
-        v-bind="{cx, cy, r: 40}"
-        :class="[`spot-${this.robot.getSpot(index).effect}`,
-            {'spot-drop': drag},
-            {'spot-robot': robot.position === index},
-            {'spot-available': robot.available.some(spot => spot.index === index)},
-            {'spot-over': hover === index},
-            {'spot-completed': robot.getSpot(index)?.completed}
-        ]"
-        :data-index="index"
-        @drop="onDrop"
-        @dragenter.prevent
-        @dragover.prevent="hover = index"
-        @dragleave="hover = false"
-        @click="robot.move(index)"
-    />
+        v-bind="{...$attrs, cx, cy, r: 40, index, drag, robot}"
+    ></the-map-spot>
   </svg>
 </template>
 
@@ -137,8 +124,14 @@ import { chunk } from 'lodash'
 import {nodes} from './shape'
 import Robot from '@/services/Robot'
 
+import TheMapSpot from '@/components/TheMap/TheMapSpot.vue'
+
 export default {
   name: 'TheMap',
+
+  components: {
+    TheMapSpot
+  },
 
   props: {
     drag: Boolean,
@@ -148,7 +141,6 @@ export default {
   data() {
     return {
       nodes: chunk(nodes, 2),
-      hover: false
     }
   },
 
@@ -162,15 +154,6 @@ export default {
   },
 
   methods: {
-    onDrop(event) {
-      this.hover = false
-
-      this.$emit('update:drop', {
-        index: event.target.dataset.index,
-        effect: event.dataTransfer.getData('text')
-      })
-    },
-
     onResize() {
       const {clientWidth: width, clientHeight: height} = this.$refs['the-map']
 
@@ -184,6 +167,8 @@ export default {
 .the-map {
   overflow: unset;
   max-height: 100%;
+  left: 0;
+  right: 0;
 
   &__line {
     fill: none;
@@ -199,59 +184,6 @@ export default {
     &_backward {
       animation-direction: reverse;
     }
-  }
-
-  circle {
-    fill: lightgray;
-  }
-
-  .spot-drop:not(.spot-in):not(.spot-out) {
-    // filter: drop-shadow(0 0 5px #fff);
-    stroke: #fff;
-    stroke-width: 1px;
-    stroke-dasharray: 10;
-    //paint-order: stroke;
-  }
-
-  .spot-in { fill: url(#spot-in); }
-  .spot-out { fill: url(#spot-out); }
-  .spot-battery {
-    fill: url(#spot-battery);
-
-    &.spot-completed {
-      stroke: #000000;
-    }
-  }
-  .spot-reverse { fill: url(#spot-reverse); }
-  .spot-random { fill: url(#spot-random); }
-  .spot-robot {
-    fill: url(#spot-robot);
-
-    &.spot-in { fill: url(#spot-robot-in); }
-    &.spot-out { fill: url(#spot-robot-out); }
-    &.spot-reverse { fill: url(#spot-robot-on-reverse); }
-    &.spot-random { fill: url(#spot-robot-on-random); }
-    &.spot-battery { fill: url(#spot-robot-on-battery); }
-  }
-
-  .spot-available {
-    stroke: #ff0000;
-    stroke-width: 4px;
-    cursor: pointer;
-
-    &:hover {
-      fill: url(#spot-robot);
-
-      &.spot-in { fill: url(#spot-robot-in); }
-      &.spot-out { fill: url(#spot-robot-out); }
-      &.spot-reverse { fill: url(#spot-robot-on-reverse); }
-      &.spot-random { fill: url(#spot-robot-on-random); }
-      &.spot-battery { fill: url(#spot-robot-on-battery); }
-    }
-  }
-
-  .spot-over {
-    fill: #a9cdbb !important;
   }
 }
 

@@ -2,11 +2,10 @@
   <div class="game-board h-100">
     <div class="game-board__inner">
       <div class="col h-100">
-        <div class="p-4 h-100">
+        <div class="p-4 h-100 position-relative">
           <the-map
               :drag="drag"
               :robot="robot"
-              class="game-board__column"
               @update:drop="robot.setSpot($event.index, $event.effect)"
               @update:bounds="bounds = $event"
           ></the-map>
@@ -18,27 +17,40 @@
           :style="{
             'max-width': `${bounds.width * 0.3}px`,
             'max-height': `${bounds.height * 0.5}px`,
-            'top': `${bounds.height * 0.3}px`,
+            'top': `${bounds.height * 0.265}px`,
             'right': `${bounds.height * 0.215}px`
           }"
       >
         <div class="content-board__wrapper h-100">
-          <the-dice
-              v-if="!isEdit && robot.isReady"
-              :dice="robot.dice"
-          ></the-dice>
-
           <div
-              v-else
-              class="p-4"
-              style="color: #fff"
+              v-if="!isEdit && robot.isReady"
+              class="content-board__dice position-relative h-100"
           >
-            <p>
-              Этот инструмент создан для того, чтобы помочь в прохождении Зала Экзорцизма во Дворце Рассвета.
+            <the-dice
+                :dice="robot.dice"
+            ></the-dice>
+
+            <div>
+              <p>
+                Осталось батареек: <strong>{{ robot.batteries.length }}</strong>
+              </p>
+
+              <moves-info
+                  v-if="robot.available.length"
+                  :robot="robot"
+              ></moves-info>
+            </div>
+          </div>
+
+          <div v-else>
+            <p class="d-none d-lg-block">
+              Симмулятор для прохождении Зала Экзорцизма во Дворце Рассвета.
             </p>
+
             <p>
               Разместите батарейки на доске, и нажмите кнопку Начать.
             </p>
+
             <button
                 class="btn btn-light mt-4"
                 :disabled="!robot.isReady"
@@ -55,41 +67,29 @@
       <the-legend
           v-model:drag="drag"
           :robot="robot"
-          class="game-board__column"
       ></the-legend>
     </the-sidebar>
   </div>
 </template>
 
-<script>
+<script setup>
+import {reactive, toRefs} from 'vue';
+
 import Robot from '@/services/Robot'
 
 import TheMap from '@/components/TheMap/TheMap.vue'
 import TheLegend from '@/components/TheLegend.vue'
 import TheSidebar from '@/components/TheSidebar.vue'
 import TheDice from '@/components/TheDice/TheDice.vue'
+import MovesInfo from '@/components/MovesInfo.vue'
 
-export default {
-  name: 'App',
-
-  components: {
-    TheMap,
-    TheLegend,
-    TheSidebar,
-    TheDice
-  },
-
-  data() {
-    return {
-      isEdit: true,
-      drag: false,
-
-      robot: new Robot(),
-
-      bounds: {width: 10, height: 10},
-    }
-  },
-}
+const data = reactive({
+  isEdit: true,
+  drag: false,
+  robot: new Robot(),
+  bounds: {width: 10, height: 10},
+})
+const { isEdit, drag, robot, bounds } = toRefs(data)
 </script>
 
 <style lang="scss">
@@ -106,6 +106,7 @@ body {
   left: 0;
   margin: auto;
   border-radius: 50px;
+  padding: 10px;
 }
 
 .game-board {
@@ -116,7 +117,7 @@ body {
     display: flex;
     height: 100%;
     position: relative;
-    padding: 0 10%;
+    padding: 1% 12%;
   }
 }
 </style>

@@ -5,8 +5,10 @@
         :key="`control-${item}`"
         :id="item"
         class="control m-2"
-        :class="`control-${item}`"
-        draggable="true"
+        :class="[`control-${item}`, {
+          'is-disabled': robot.getLimit(item) > 3
+        }]"
+        :draggable="robot.getLimit(item) < 4"
         @dragstart="onDragStart($event, item)"
         @dragend="onDragEnd"
     ></div>
@@ -32,7 +34,9 @@ export default {
       ghost.classList.add('control', `control-${item}`, 'ghost')
       document.body.appendChild(ghost)
 
-      event.dataTransfer.setDragImage(ghost, 40, 40)
+      const { clientWidth, clientHeight } = ghost
+
+      event.dataTransfer.setDragImage(ghost, clientWidth/2, clientHeight/2)
       event.dataTransfer.setData('text/plain', item)
     },
 
@@ -79,6 +83,11 @@ export default {
 
   &-reverse {
     background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbDpzcGFjZT0icHJlc2VydmUiIHZpZXdCb3g9IjAgMCA0MCA0MCI+PHBhdGggZmlsbD0iIzAwNjg5NyIgZD0iTTAgMGg0MHY0MEgweiIvPjxwYXRoIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzAwZmRmZCIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjIiIGQ9Ik0xMyAxNWgxMGMzLjMgMCA2IDIuNyA2IDZzLTIuNyA2LTYgNkgxM20wLTEyIDQtNG0tNCA0IDQgNCIvPjwvc3ZnPg==");
+  }
+
+  &.is-disabled {
+    cursor: not-allowed;
+    opacity: .1;
   }
 }
 </style>
