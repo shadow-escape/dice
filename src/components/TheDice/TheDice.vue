@@ -26,8 +26,10 @@
             :checked="dice.direction === direction"
             @change="dice.setDirection(direction)"
         >
-        <label class="btn btn-light w-100" :for="direction">
-          {{ dice.getDirectionTitle(direction) }}
+        <label class="btn btn-light btn-sm" :for="direction">
+          <fa-icon
+              :icon="dice.getDirectionTitle(direction)"
+          />
         </label>
       </div>
     </div>
@@ -55,8 +57,10 @@ export default {
 </script>
 
 <style lang="scss">
-$size: 6vh;
+$size: 3.5vw;
 $offset: calc($size / 2);
+$spot: calc($size / 4);
+$spot-size: calc($spot / 1.25);
 
 .the-dice {
   width: 100%;
@@ -89,9 +93,9 @@ $offset: calc($size / 2);
   justify-content: center;
 
   &:before {
-    content: "";
-    width: 1vh;
-    height: 1vh;
+    content: '';
+    width: $spot-size;
+    height: $spot-size;
     background-color: #222;
     border-radius: 50%;
   }
@@ -107,8 +111,8 @@ $offset: calc($size / 2);
   &:before {
     background: transparent;
     box-shadow:
-        #222 -1.25vh -1.25vh 0px 0px,
-        #222 1.25vh 1.25vh 0px 0px;
+        #222 (-$spot) (-$spot) 0 0,
+        #222 $spot $spot 0 0;
   }
 }
 
@@ -116,8 +120,8 @@ $offset: calc($size / 2);
   transform: translateY($offset) rotateX(90deg);
   &:before {
     box-shadow:
-        #222 -1.25vh 1.25vh 0px 0px,
-        #222 1.25vh -1.25vh 0px 0px;
+        #222 (-$spot) $spot 0 0,
+        #222 $spot (-$spot) 0 0;
   }
 }
 
@@ -126,10 +130,10 @@ $offset: calc($size / 2);
   &:before {
     background: transparent;
     box-shadow:
-        #222 -1.25vh 1.25vh 0px 0px,
-        #222 -1.25vh -1.25vh 0px 0px,
-        #222 1.25vh 1.25vh 0px 0px,
-        #222 1.25vh -1.25vh 0px 0px;
+        #222 (-$spot) $spot 0 0,
+        #222 (-$spot) (-$spot) 0 0,
+        #222 $spot $spot 0 0,
+        #222 $spot (-$spot) 0 0;
   }
 }
 
@@ -137,10 +141,10 @@ $offset: calc($size / 2);
   transform: translateX($offset) rotateY(90deg);
   &:before {
     box-shadow:
-        #222 -1.25vh -1.25vh 0px 0px,
-        #222 -1.25vh 1.25vh 0px 0px,
-        #222 1.25vh -1.25vh 0px 0px,
-        #222 1.25vh 1.25vh 0px 0px;
+        #222 (-$spot) (-$spot) 0 0,
+        #222 (-$spot) $spot 0 0,
+        #222 $spot (-$spot) 0 0,
+        #222 $spot $spot 0 0;
   }
 }
 
@@ -149,12 +153,12 @@ $offset: calc($size / 2);
   &:before {
     background: transparent;
     box-shadow:
-        #222 -1.25vh -1.25vh 0px 0px,
-        #222 -1.25vh 0px 0px 0px,
-        #222 -1.25vh 1.25vh 0px 0px,
-        #222 1.25vh -1.25vh 0px 0px,
-        #222 1.25vh 0px 0px 0px,
-        #222 1.25vh 1.25vh 0px 0px;
+        #222 (-$spot) (-$spot) 0 0,
+        #222 (-$spot) 0 0 0,
+        #222 (-$spot) $spot 0 0,
+        #222 $spot (-$spot) 0 0,
+        #222 $spot 0 0 0,
+        #222 $spot $spot 0 0;
   }
 }
 </style>

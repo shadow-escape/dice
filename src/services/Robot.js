@@ -6,13 +6,9 @@ import {BatterySpot, ReverseSpot} from '@/services/model/Spot'
 export default class Robot {
     position = 0
     direction = 1
-
     dice = new Dice()
-
     scheme = SCHEME.map(effect => plainToClass(MAPPINGS[effect], { effect }))
-
     legend = ['empty', 'battery', 'random', 'reverse']
-
     over = false
 
     /**
@@ -53,8 +49,29 @@ export default class Robot {
         }
     }
 
+    async step() {
+        const position = this.position
+        const index = this.direction > 0 ? position+1 : position-1
+        const target = this.cut(index)
+
+        this.setPosition(target)
+    }
+
     setPosition(position) {
         this.position = position
+    }
+
+    /**
+     * Смыкаем маршрут
+     */
+    cut(index) {
+        if (index > 39) {
+            return index % 40
+        } else if (index < 0) {
+            return  40 + index
+        }
+
+        return index
     }
 
     /**
@@ -65,14 +82,9 @@ export default class Robot {
             return Object.keys(this.dice.steps).map(value => {
                 let index = this.position + Number(value) * this.direction
 
-                if (index > 39) {
-                    index = index % 40
-                } else if (index < 0) {
-                    index = 40 + index
-                }
 
                 return {
-                    index,
+                    index: this.cut(index),
                     value: Number(value),
                     moves: this.dice.steps[value]
                 }

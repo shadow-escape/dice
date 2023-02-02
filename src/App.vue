@@ -2,10 +2,9 @@
   <div class="game-board h-100">
     <div class="game-board__inner">
       <div class="col h-100">
-        <div class="p-4 h-100 position-relative">
+        <div class="h-100 position-relative">
           <the-map
-              :drag="drag"
-              :robot="robot"
+              v-bind="{ drag, robot }"
               @update:drop="robot.setSpot($event.index, $event.effect)"
               @update:bounds="bounds = $event"
           ></the-map>
@@ -27,30 +26,27 @@
               class="content-board__dice position-relative h-100"
           >
             <the-dice
-                :dice="robot.dice"
+                v-bind="{ dice: robot.dice }"
             ></the-dice>
 
-            <div>
+            <div class="content-board__inner h-75">
               <p>
                 Осталось батареек: <strong>{{ robot.batteries.length }}</strong>
               </p>
 
               <moves-info
                   v-if="robot.available.length"
-                  :robot="robot"
+                  v-bind="{ robot }"
               ></moves-info>
             </div>
+
+            <game-tools
+                v-bind="{ robot }"
+                @update:overlay="overlay = true"
+            ></game-tools>
           </div>
 
-          <div v-else>
-            <p class="d-none d-lg-block">
-              Симмулятор для прохождении Зала Экзорцизма во Дворце Рассвета.
-            </p>
-
-            <p>
-              Разместите батарейки на доске, и нажмите кнопку Начать.
-            </p>
-
+          <div class="d-flex flex-column justify-content-center h-100" v-else>
             <button
                 class="btn btn-light mt-4"
                 :disabled="!robot.isReady"
@@ -70,10 +66,15 @@
       ></the-legend>
     </the-sidebar>
   </div>
+
+  <game-overlay
+      v-if="overlay"
+      v-model:overlay="overlay"
+  ></game-overlay>
 </template>
 
 <script setup>
-import {reactive, toRefs} from 'vue';
+import {reactive, ref, toRefs} from 'vue'
 
 import Robot from '@/services/Robot'
 
@@ -82,6 +83,18 @@ import TheLegend from '@/components/TheLegend.vue'
 import TheSidebar from '@/components/TheSidebar.vue'
 import TheDice from '@/components/TheDice/TheDice.vue'
 import MovesInfo from '@/components/MovesInfo.vue'
+import GameTools from '@/components/GameTools.vue'
+import GameOverlay from "@/components/GameOverlay.vue";
+
+/**
+ * @todo
+ * - Отмечать взятую батарейку
+ * - Рекомендательный алгоритм
+ * - Масштабирование кнопок
+ * - Написать справку
+ * - Изменение положения кубика
+ * - Числа на доступных ячейках?
+ */
 
 const data = reactive({
   isEdit: true,
@@ -90,6 +103,8 @@ const data = reactive({
   bounds: {width: 10, height: 10},
 })
 const { isEdit, drag, robot, bounds } = toRefs(data)
+
+const overlay = ref(true)
 </script>
 
 <style lang="scss">
@@ -105,8 +120,12 @@ body {
   bottom: 0;
   left: 0;
   margin: auto;
-  border-radius: 50px;
+  border-radius: 20px;
   padding: 10px;
+
+  &__inner {
+    margin-bottom: -10%;
+  }
 }
 
 .game-board {
@@ -119,5 +138,16 @@ body {
     position: relative;
     padding: 1% 12%;
   }
+}
+
+.overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background: #000;
 }
 </style>

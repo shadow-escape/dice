@@ -1,8 +1,13 @@
 <template>
   <circle
+      v-if="available && possible"
+      v-bind="attrs"
+      class="spot-border"
+      :class="{'spot-border_possible': available && possible}"
+  />
+  <circle
       ref="spot"
-      v-tippy
-      v-bind="$attrs"
+      v-bind="attrs"
       :class="classList"
       :data-index="index"
       @drop="onDrop"
@@ -17,14 +22,6 @@
 
 <script>
 import Robot from '@/services/Robot'
-import tippy, {hideAll} from 'tippy.js';
-
-tippy.setDefaultProps({
-  allowHTML: true,
-  trigger: 'manual',
-  hideOnClick: false,
-  arrow: false
-});
 
 export default {
   name: 'TheMapSpot',
@@ -33,33 +30,13 @@ export default {
     robot: Robot,
     index: Number,
     drag: Boolean,
+    attrs: Object,
   },
 
   data() {
     return {
       hover: false
     };
-  },
-
-  watch: {
-    available: {
-      immediate: true,
-      deep: true,
-      handler(value) {
-        hideAll()
-        if (value) {
-          const tooltip = tippy(this.$el)
-          const { value, moves } = this.robot.available.find(spot => spot.index === this.index)
-
-          tooltip.setContent(`
-            <div class="tippy-wrapper">
-                <strong>${value}</strong>: ${moves.title}
-            </div>
-          `)
-          tooltip.show()
-        }
-      }
-    }
   },
 
   computed: {
@@ -116,10 +93,6 @@ export default {
 </script>
 
 <style lang="scss">
-.tippy-wrapper {
-  font-size: 2.5vh
-}
-
 circle {
   fill: lightgray;
 
@@ -129,47 +102,70 @@ circle {
 }
 
 .spot-drop:not(.spot-in):not(.spot-out) {
-  // filter: drop-shadow(0 0 5px #fff);
   stroke: #fff;
   stroke-width: 1px;
   stroke-dasharray: 10;
-  //paint-order: stroke;
 }
 
-.spot-in { fill: url(#spot-in); }
-.spot-out { fill: url(#spot-out); }
+.spot-in {
+  fill: url(#spot-in);
+}
+
+.spot-out {
+  fill: url(#spot-out);
+}
+
 .spot-battery {
   fill: url(#spot-battery);
 
   &.spot-completed {
-    stroke: #000000;
+    //filter: grayscale(2);
   }
 }
-.spot-reverse { fill: url(#spot-reverse); }
-.spot-random { fill: url(#spot-random); }
+
+.spot-reverse {
+  fill: url(#spot-reverse);
+}
+
+.spot-random {
+  fill: url(#spot-random);
+}
+
 .spot-robot {
   fill: url(#spot-robot);
 
-  &.spot-in { fill: url(#spot-robot-in); }
-  &.spot-out { fill: url(#spot-robot-out); }
-  &.spot-reverse { fill: url(#spot-robot-on-reverse); }
-  &.spot-random { fill: url(#spot-robot-on-random); }
-  &.spot-battery { fill: url(#spot-robot-on-battery); }
+  &.spot-in {
+    fill: url(#spot-robot-in);
+  }
+
+  &.spot-out {
+    fill: url(#spot-robot-out);
+  }
+
+  &.spot-reverse {
+    fill: url(#spot-robot-on-reverse);
+  }
+
+  &.spot-random {
+    fill: url(#spot-robot-on-random);
+  }
+
+  &.spot-battery {
+    fill: url(#spot-robot-on-battery);
+  }
 }
 
 .spot-available {
-  stroke: #ff0000;
-  stroke-width: 4px;
   cursor: pointer;
+  mask: url(#mask);
+}
 
-  &:hover, &.spot-possible {
-    fill: url(#spot-robot);
+.spot-border {
+  fill: none;
 
-    &.spot-in { fill: url(#spot-robot-in); }
-    &.spot-out { fill: url(#spot-robot-out); }
-    &.spot-reverse { fill: url(#spot-robot-on-reverse); }
-    &.spot-random { fill: url(#spot-robot-on-random); }
-    &.spot-battery { fill: url(#spot-robot-on-battery); }
+  &_possible {
+    stroke-width: 4px;
+    stroke: #0d6efd;
   }
 }
 

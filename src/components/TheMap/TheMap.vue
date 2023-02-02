@@ -3,8 +3,12 @@
       ref="the-map"
       class="the-map position-absolute top-0 bottom-0 left-0 right-0 m-auto"
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 832 736"
+      viewBox="0 0 860 760"
   >
+    <symbol id="background">
+      <rect x="0" y="0" width="100%" height="100%"></rect>
+    </symbol>
+
     <symbol id="battery" viewBox="0 0 40 40" width="100" height="100">
       <path d="M25.6 25H12.8c-1.2 0-2.2-1-2.2-2.2v-5.7c0-1.2 1-2.2 2.2-2.2h12.8c1.2 0 2.2 1 2.2 2.2.9.2 1.6.9 1.6 1.9v1.9c0 1-.7 1.7-1.6 1.9v.1c0 1.2-1 2.1-2.2 2.1zm-12.8-8.4c-.3 0-.6.2-.6.6v5.7c0 .3.2.6.6.6h12.8c.3 0 .6-.2.6-.6V22c0-.4.4-.8.8-.8h.5c.1 0 .2-.1.2-.2v-2c0-.1-.1-.2-.2-.2H27c-.4 0-.8-.4-.8-.8v-.8c0-.3-.2-.6-.6-.6H12.8zm1.8 5.6c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3.1 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3.1 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8.5 0 .8.4.8.8v2.7c0 .4-.4.8-.8.8zm3 0c-.4 0-.8-.4-.8-.8v-2.7c0-.4.4-.8.8-.8s.8.4.8.8v2.7c.1.4-.3.8-.8.8z"/>
     </symbol>
@@ -45,65 +49,73 @@
     </symbol>
 
     <defs>
+      <pattern id="stripe" patternTransform="rotate(45)" width="100%" height="10" x="0" y="0" patternUnits="userSpaceOnUse">
+        <rect x="0" y="0" width="100%" height="9" fill="#fff"></rect>
+      </pattern>
+
+      <mask id="mask">
+        <rect x="0" y="0" height="100%" width="100%" fill="url(#stripe)"/>
+      </mask>
+
       <pattern id="spot-battery" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#007650"></rect>
+        <use xlink:href="#background" fill="#007650"></use>
         <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
       </pattern>
 
       <pattern id="spot-reverse" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#006897"></rect>
+        <use xlink:href="#background" fill="#006897"></use>
         <use xlink:href="#reverse" x="-8px" y="-8px" fill="none" stroke="#00fdfd" stroke-linecap="round" stroke-width="2"/>
       </pattern>
 
       <pattern id="spot-random" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#88841d"/>
+        <use xlink:href="#background" fill="#88841d"></use>
         <use xlink:href="#random" x="-8px" y="-8px" fill="#fffd51"/>
       </pattern>
 
       <pattern id="spot-out" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#551a18"/>
+        <use xlink:href="#background" fill="#551a18"></use>
         <use xlink:href="#out" x="-10px" y="-6px" fill="#ff2b2b"/>
       </pattern>
 
       <pattern id="spot-in" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#007866"/>
+        <use xlink:href="#background" fill="#007866"></use>
         <use xlink:href="#in" x="-8px" y="-6px" fill="#00fc90"/>
       </pattern>
 
       <pattern id="spot-robot" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#d3d3d3"/>
+        <use xlink:href="#background" fill="#d3d3d3"></use>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
 
       <pattern id="spot-robot-in" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#007866"/>
+        <use xlink:href="#background" fill="#007866"></use>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
 
       <pattern id="spot-robot-out" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#551a18"/>
+        <use xlink:href="#background" fill="#551a18"></use>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
 
       <pattern id="spot-robot-on-reverse" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#006897"></rect>
+        <use xlink:href="#background" fill="#006897"></use>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
 
       <pattern id="spot-robot-on-random" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#88841d"/>
+        <use xlink:href="#background" fill="#88841d"></use>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
 
       <pattern id="spot-robot-on-battery" width="100%" height="100%">
-        <rect x="0" y="0" width="100%" height="100%" fill="#007650"></rect>
+        <use xlink:href="#background" fill="#007650"></use>
         <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
     </defs>
 
     <path
-        d="M544 448v96h128l128 32v128H32V576l128 33-36-94-92-99h128V288H32V32h128l32 128 96 64V32h256l32 128v97l-96-33 32 96 96 33 65-65-1-257 128 1v384l-128 32z"
+        d="M558 460v96h128l128 32v128H46V588l128 33-36-94-92-99h128V300H46V44h128l32 128 96 64V44h256l32 128v97l-96-33 32 96 96 33 65-65-1-257 128 1v384l-128 32H558z"
         class="the-map__line"
         :class="{
           'the-map__line_forward': robot.direction > 0,
@@ -114,7 +126,8 @@
     <the-map-spot
         v-for="([cx, cy], index) in nodes"
         :key="`position-${index}`"
-        v-bind="{...$attrs, cx, cy, r: 40, index, drag, robot}"
+        v-bind="{...$attrs, index, drag, robot}"
+        :attrs="{cx, cy, r: 40}"
     ></the-map-spot>
   </svg>
 </template>

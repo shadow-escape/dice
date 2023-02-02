@@ -8,7 +8,7 @@
         class="list-inline-item"
     >
       <button
-          class="btn"
+          class="btn btn-sm"
           :class="{
             'btn-light': !isOver(index),
             'btn-primary': isOver(index)
@@ -25,17 +25,12 @@
 
 <script>
 import Robot from '@/services/Robot'
-import {TippyDirective} from 'tippy.vue'
 
 export default {
   name: 'MovesInfo',
 
   props: {
     robot: Robot
-  },
-
-  directives: {
-    tippy: TippyDirective
   },
 
   methods: {
