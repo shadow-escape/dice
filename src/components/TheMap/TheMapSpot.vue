@@ -66,15 +66,16 @@ export default {
 
     classList() {
       const {drag, effect, position, available, over, completed, possible} = this
+      const isAvailable = available && !this.robot.isAnimated
       const base = `spot-${effect}`
 
       return [base, {
         'spot-drop': drag,
         'spot-robot': position,
-        'spot-available': available && !this.robot.isAnimated,
+        'spot-available': isAvailable,
         'spot-over': over,
         'spot-completed': completed,
-        'spot-possible': possible
+        'spot-possible': possible && isAvailable,
       }];
     }
   },
@@ -119,7 +120,7 @@ circle {
   fill: url(#spot-battery);
 
   &.spot-completed {
-    //filter: grayscale(2);
+    fill: url(#spot-battery-completed);
   }
 }
 
@@ -152,6 +153,10 @@ circle {
 
   &.spot-battery {
     fill: url(#spot-robot-on-battery);
+
+    &.spot-completed {
+      fill: url(#spot-robot-on-battery-completed);
+    }
   }
 }
 

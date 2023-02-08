@@ -51,7 +51,7 @@
           <div class="d-flex flex-column justify-content-center h-100" v-else>
             <div>
               <p>
-                Размести батарейки на доске
+                Разместите батарейки на доске
               </p>
 
               <button
@@ -97,10 +97,13 @@ import GameOverlay from "@/components/GameOverlay.vue";
 
 /**
  * @todo
- * - Отмечать взятую батарейку
  * - Рекомендательный алгоритм
- * - Отметить батарейку
+ * - Пометить батарейку как взятую
  */
+
+const title = ref('Симулятор Зала экзорцизма')
+
+document.title = title.value
 
 const data = reactive({
   isEdit: true,

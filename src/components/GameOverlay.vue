@@ -40,6 +40,16 @@
               <fa-icon icon="fa-brands fa-vk"/>
               Побег в тень
             </a><!-- /noindex -->
+            <br>
+            <br>
+            <!-- noindex --><a
+              href="https://pw.mail.ru/forums/showthread.php?t=205172&p=11400511&viewfull=1#post11400511"
+              rel="noindex nofollow noreferer"
+              target="_blank"
+              class="link-info"
+          >
+            [Гайд] Дворец рассвета
+          </a><!-- /noindex -->
           </p>
 
           <button

@@ -62,6 +62,11 @@
         <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
       </pattern>
 
+      <pattern id="spot-battery-completed" width="100%" height="100%">
+        <use class="is-disabled" xlink:href="#background" fill="#007650"></use>
+        <use class="is-disabled" xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
+      </pattern>
+
       <pattern id="spot-reverse" width="100%" height="100%">
         <use xlink:href="#background" fill="#006897"></use>
         <use xlink:href="#reverse" x="-8px" y="-8px" fill="none" stroke="#00fdfd" stroke-linecap="round" stroke-width="2"/>
@@ -110,6 +115,12 @@
       <pattern id="spot-robot-on-battery" width="100%" height="100%">
         <use xlink:href="#background" fill="#007650"></use>
         <use xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
+        <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
+      </pattern>
+
+      <pattern id="spot-robot-on-battery-completed" width="100%" height="100%">
+        <use class="is-disabled" xlink:href="#background" fill="#007650"></use>
+        <use class="is-disabled" xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
         <use xlink:href="#robot" x="-10px" y="-8px" fill="#000"/>
       </pattern>
     </defs>
@@ -203,5 +214,9 @@ export default {
 @keyframes dash {
   from { stroke-dashoffset: 0}
   to { stroke-dashoffset: 1000 }
+}
+
+use.is-disabled {
+  filter: grayscale(50);
 }
 </style>

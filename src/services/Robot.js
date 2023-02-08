@@ -34,9 +34,9 @@ export default class Robot {
         if (needle?.moves && !this.isAnimated) {
             const { moves } = needle
 
+            this.setPosition(index)
             await this.dice.rotate(moves.steps)
             this.dice.setPosition(moves.position)
-            this.setPosition(index)
 
             if (this.currentSpot instanceof ReverseSpot) {
                 this.reverse()
