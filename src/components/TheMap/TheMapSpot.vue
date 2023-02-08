@@ -71,7 +71,7 @@ export default {
       return [base, {
         'spot-drop': drag,
         'spot-robot': position,
-        'spot-available': available,
+        'spot-available': available && !this.robot.isAnimated,
         'spot-over': over,
         'spot-completed': completed,
         'spot-possible': possible

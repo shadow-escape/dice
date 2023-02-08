@@ -12,7 +12,10 @@
       <div class="side six"></div>
     </div>
 
-    <div class="position-absolute row justify-content-between w-100 h-100">
+    <div
+        v-if="dice.freeze"
+        class="position-absolute row justify-content-between w-100 h-100"
+    >
       <div
           v-for="direction in dice.directions"
           :key="direction"
@@ -27,9 +30,7 @@
             @change="dice.setDirection(direction)"
         >
         <label class="btn btn-light btn-sm" :for="direction">
-          <fa-icon
-              :icon="dice.getDirectionTitle(direction)"
-          />
+          <fa-icon :icon="dice.getDirectionTitle(direction)"/>
         </label>
       </div>
     </div>
@@ -57,11 +58,6 @@ export default {
 </script>
 
 <style lang="scss">
-$size: 3.5vw;
-$offset: calc($size / 2);
-$spot: calc($size / 4);
-$spot-size: calc($spot / 1.25);
-
 .the-dice {
   width: 100%;
   height: 25%;
@@ -71,94 +67,105 @@ $spot-size: calc($spot / 1.25);
 }
 
 .dice {
+  --size: 4vh;
+  --offset: calc(var(--size) / 2);
+  --n-offset: calc(-1 * var(--offset));
+  --spot: calc(var(--size) / 4);
+  --n-spot: calc(-1 * var(--spot));
+  --spot-size: calc(var(--spot) / 1.25);
   position: relative;
-  width: $size;
-  height: $size;
+  width: var(--size);
+  height: var(--size);
   transform-style: preserve-3d;
   transition: transform .25s;
+
+  @media screen and (orientation: landscape) {
+    --size: 4vw;
+  }
 
   &.is-frozen {
     transition: unset !important;
   }
-}
 
-.side {
-  width: 100%;
-  height: 100%;
-  background: #fff;
-  border: 2px inset black;
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  .side {
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    border: 2px inset black;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-  &:before {
-    content: '';
-    width: $spot-size;
-    height: $spot-size;
-    background-color: #222;
-    border-radius: 50%;
+    &:before {
+      content: '';
+      width: var(--spot-size);
+      height: var(--spot-size);
+      background-color: #222;
+      border-radius: 50%;
+    }
+  }
+
+  .one {
+    transform: translateZ(var(--offset));
+  }
+
+  .two {
+    transform: translateX(var(--n-offset)) rotateY(-90deg);
+
+    &:before {
+      background: transparent;
+      box-shadow:
+          #222 var(--n-spot) var(--n-spot) 0 0,
+          #222 var(--spot) var(--spot) 0 0;
+    }
+  }
+
+  .three {
+    transform: translateY(var(--offset)) rotateX(90deg);
+    &:before {
+      box-shadow:
+          #222 var(--n-spot) var(--spot) 0 0,
+          #222 var(--spot) var(--n-spot) 0 0;
+    }
+  }
+
+  .four {
+    transform: translateY(var(--n-offset)) rotateX(90deg);
+    &:before {
+      background: transparent;
+      box-shadow:
+          #222 var(--n-spot) var(--spot) 0 0,
+          #222 var(--n-spot) var(--n-spot) 0 0,
+          #222 var(--spot) var(--spot) 0 0,
+          #222 var(--spot) var(--n-spot) 0 0;
+    }
+  }
+
+  .five {
+    transform: translateX(var(--offset)) rotateY(90deg);
+    &:before {
+      box-shadow:
+          #222 var(--n-spot) var(--n-spot) 0 0,
+          #222 var(--n-spot) var(--spot) 0 0,
+          #222 var(--spot) var(--n-spot) 0 0,
+          #222 var(--spot) var(--spot) 0 0;
+    }
+  }
+
+  .six {
+    transform: translateZ(var(--n-offset));
+    &:before {
+      background: transparent;
+      box-shadow:
+          #222 var(--n-spot) var(--n-spot) 0 0,
+          #222 var(--n-spot) 0 0 0,
+          #222 var(--n-spot) var(--spot) 0 0,
+          #222 var(--spot) var(--n-spot) 0 0,
+          #222 var(--spot) 0 0 0,
+          #222 var(--spot) var(--spot) 0 0;
+    }
   }
 }
 
-.one {
-  transform: translateZ($offset);
-}
-
-.two {
-  transform: translateX(-$offset) rotateY(-90deg);
-
-  &:before {
-    background: transparent;
-    box-shadow:
-        #222 (-$spot) (-$spot) 0 0,
-        #222 $spot $spot 0 0;
-  }
-}
-
-.three {
-  transform: translateY($offset) rotateX(90deg);
-  &:before {
-    box-shadow:
-        #222 (-$spot) $spot 0 0,
-        #222 $spot (-$spot) 0 0;
-  }
-}
-
-.four {
-  transform: translateY(-$offset) rotateX(90deg);
-  &:before {
-    background: transparent;
-    box-shadow:
-        #222 (-$spot) $spot 0 0,
-        #222 (-$spot) (-$spot) 0 0,
-        #222 $spot $spot 0 0,
-        #222 $spot (-$spot) 0 0;
-  }
-}
-
-.five {
-  transform: translateX($offset) rotateY(90deg);
-  &:before {
-    box-shadow:
-        #222 (-$spot) (-$spot) 0 0,
-        #222 (-$spot) $spot 0 0,
-        #222 $spot (-$spot) 0 0,
-        #222 $spot $spot 0 0;
-  }
-}
-
-.six {
-  transform: translateZ(-$offset);
-  &:before {
-    background: transparent;
-    box-shadow:
-        #222 (-$spot) (-$spot) 0 0,
-        #222 (-$spot) 0 0 0,
-        #222 (-$spot) $spot 0 0,
-        #222 $spot (-$spot) 0 0,
-        #222 $spot 0 0 0,
-        #222 $spot $spot 0 0;
-  }
-}
 </style>

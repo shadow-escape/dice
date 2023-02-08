@@ -31,7 +31,7 @@ export default class Robot {
     async move(index) {
         const needle = this.available.find(spot => spot.index === index)
 
-        if (needle?.moves) {
+        if (needle?.moves && !this.isAnimated) {
             const { moves } = needle
 
             await this.dice.rotate(moves.steps)
@@ -134,5 +134,13 @@ export default class Robot {
 
     setOver(over) {
         this.over = over
+    }
+
+    /**
+     * Флаг анимации кубика
+     */
+    get isAnimated() {
+        return !(this.available.length
+            && this.dice.freeze)
     }
 }

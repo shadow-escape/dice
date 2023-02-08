@@ -8,7 +8,7 @@ export const LOC = {
     [DIRECTIONS.UP]: 'fa-solid fa-arrow-up'
 }
 
-export const MAPPINGS = ['1-2', '1-3', '1-4', '1-5', '2-1', '2-3', '2-4', '2-6', '3-1', '3-2', '3-5', '3-6', '4-1', '4-2', '4-5', '4-6', '5-1', '5-3', '5-4', '5-6', '6-2', '6-3', '6-4', '6-5']
+export const MAPPINGS = [1, 2, 1, 3, 1, 4, 1, 5, 2, 1, 2, 3, 2, 4, 2, 6, 3, 1, 3, 2, 3, 5, 3, 6, 4, 1, 4, 2, 4, 5, 4, 6, 5, 1, 5, 3, 5, 4, 5, 6, 6, 2, 6, 3, 6, 4, 6, 5]
 
 export const variants = [
     {// 0
@@ -96,7 +96,7 @@ export const variants = [
         coordinates: [2, -1, 0],
         moves: {
             [DIRECTIONS.RIGHT]: {
-                3: {position: 9, title: '↑→→', steps: [2, -1, -1, 2, -2, -1, 2, -3, -1 ]},
+                3: {position: 9, title: '↑→→', steps: [2, -1, -1, 2, -2, -1, 2, -3, -1]},
                 4: {position: 14, title: '→→↑', steps: [2, -2, 0, 2, -3, 0, 2, -3, 1]},
                 5: {position: 16, title: '→↑→', steps: [2, -2, 0, 3, -2, 0, 3, -2, -1]}
             },

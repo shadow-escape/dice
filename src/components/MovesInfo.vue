@@ -1,5 +1,7 @@
 <template>
-  <strong>Доступные комбинации:</strong>
+  <strong class="d-sm-none d-md-inline-block">
+    Доступные комбинации:
+  </strong>
 
   <ul class="list-unstyled my-2">
     <li
@@ -17,7 +19,7 @@
           @mouseleave="robot.setOver(false)"
           @click="robot.move(index)"
       >
-        <strong>{{ value }}</strong>: {{ moves.title }}
+        <strong class="d-sm-none d-md-inline-block">{{ value }}:</strong> {{ moves.title }}
       </button>
     </li>
   </ul>
@@ -40,3 +42,13 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+ul {
+  white-space: nowrap;
+}
+
+li {
+  max-width: 33%;
+}
+</style>

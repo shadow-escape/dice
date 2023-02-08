@@ -23,37 +23,45 @@
         <div class="content-board__wrapper h-100">
           <div
               v-if="!isEdit && robot.isReady"
-              class="content-board__dice position-relative h-100"
+              class="content-board__dice position-relative h-100 d-flex flex-column justify-content-between"
           >
             <the-dice
                 v-bind="{ dice: robot.dice }"
             ></the-dice>
 
-            <div class="content-board__inner h-75">
-              <p>
-                Осталось батареек: <strong>{{ robot.batteries.length }}</strong>
-              </p>
+            <div class="d-flex flex-column h-100">
+              <div class="d-flex flex-column h-100">
+                <p class="my-4">
+                  Осталось батареек: <strong>{{ robot.batteries.length }}</strong>
+                </p>
 
-              <moves-info
-                  v-if="robot.available.length"
+                <moves-info
+                    v-if="!robot.isAnimated"
+                    v-bind="{ robot }"
+                ></moves-info>
+              </div>
+
+              <game-tools
                   v-bind="{ robot }"
-              ></moves-info>
+                  @update:overlay="overlay = true"
+              ></game-tools>
             </div>
-
-            <game-tools
-                v-bind="{ robot }"
-                @update:overlay="overlay = true"
-            ></game-tools>
           </div>
 
           <div class="d-flex flex-column justify-content-center h-100" v-else>
-            <button
-                class="btn btn-light mt-4"
-                :disabled="!robot.isReady"
-                @click="isEdit = false"
-            >
-              Начать
-            </button>
+            <div>
+              <p>
+                Размести батарейки на доске
+              </p>
+
+              <button
+                  class="btn btn-light mt-4"
+                  :disabled="!robot.isReady"
+                  @click="isEdit = false"
+              >
+                Начать
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -70,6 +78,7 @@
   <game-overlay
       v-if="overlay"
       v-model:overlay="overlay"
+      v-bind="{ isEdit }"
   ></game-overlay>
 </template>
 
@@ -90,10 +99,7 @@ import GameOverlay from "@/components/GameOverlay.vue";
  * @todo
  * - Отмечать взятую батарейку
  * - Рекомендательный алгоритм
- * - Масштабирование кнопок
- * - Написать справку
- * - Изменение положения кубика
- * - Числа на доступных ячейках?
+ * - Отметить батарейку
  */
 
 const data = reactive({
@@ -111,6 +117,7 @@ const overlay = ref(true)
 html,
 body {
   height: 100%;
+  min-height: 500px;
 }
 
 .content-board {
@@ -122,10 +129,6 @@ body {
   margin: auto;
   border-radius: 20px;
   padding: 10px;
-
-  &__inner {
-    margin-bottom: -10%;
-  }
 }
 
 .game-board {

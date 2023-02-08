@@ -1,7 +1,8 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import App from './App.vue'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {faVk} from '@fortawesome/free-brands-svg-icons'
 import {
     faArrowRight,
     faArrowUp,
@@ -9,14 +10,16 @@ import {
     faInfo,
     faRotateLeft,
     faDiceD6,
-    faXmark
+    faXmark,
+    faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix
 } from '@fortawesome/free-solid-svg-icons'
 
-const icons = [faArrowRight, faArrowUp, faInfo, faPlus, faRotateLeft, faDiceD6, faXmark]
+const icons = [faArrowRight, faArrowUp, faInfo, faPlus, faRotateLeft, faDiceD6, faXmark, faVk, faDiceOne, faDiceTwo, faDiceThree, faDiceFour, faDiceFive, faDiceSix]
 
 library.add(...icons)
 
 import './assets/style/style.scss'
+
 
 createApp(App)
     .component('fa-icon', FontAwesomeIcon)

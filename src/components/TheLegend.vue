@@ -1,5 +1,8 @@
 <template>
-  <div class="d-flex flex-column align-items-center">
+  <div
+      id="the-sidebar"
+      class="d-flex flex-column align-items-center"
+  >
     <div
         v-for="item in this.robot.legend"
         :key="`control-${item}`"
@@ -32,7 +35,7 @@ export default {
 
       const ghost = document.createElement('div')
       ghost.classList.add('control', `control-${item}`, 'ghost')
-      document.body.appendChild(ghost)
+      document.getElementById('the-sidebar').appendChild(ghost)
 
       const { clientWidth, clientHeight } = ghost
 
@@ -58,8 +61,18 @@ export default {
   background-size: cover;
   cursor: grab;
 
+  @media screen and (orientation: portrait) {
+    width: 10vw;
+    height: 10vw;
+  }
+
+  @media screen and (orientation:landscape) {
+    width: 10vh;
+    height: 10vh;
+  }
+
   &.ghost {
-    transform: translateX(-500px);
+    transform: translateY(-500px);
     position: absolute;
     box-shadow: none;
     background-color: red;
