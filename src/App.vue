@@ -96,16 +96,6 @@ import GameTools from '@/components/GameTools.vue'
 import GameOverlay from "@/components/GameOverlay.vue";
 import StepsInfo from "@/components/StepsInfo.vue";
 
-/**
- * @todo
- * - Рекомендательный алгоритм
- * - Пометить батарейку как взятую
- */
-
-const title = ref('Симулятор Зала экзорцизма')
-
-document.title = title.value
-
 const data = reactive({
   isEdit: true,
   drag: false,
