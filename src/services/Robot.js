@@ -1,7 +1,7 @@
 import {plainToClass} from 'class-transformer'
 import {MAPPINGS, SCHEME} from '@/scheme'
 import Dice from '@/services/Dice'
-import {BatterySpot, ReverseSpot} from '@/services/model/Spot'
+import {BatterySpot, FinishSpot, ReverseSpot} from '@/services/model/Spot'
 
 export default class Robot {
     position = 0
@@ -122,7 +122,12 @@ export default class Robot {
     }
 
     get batteries() {
-        return this.scheme.filter(spot => spot instanceof BatterySpot && !spot.completed)
+        const batteries = this.scheme.filter(spot => spot instanceof BatterySpot && !spot.completed);
+
+        // развернём список в обратную сторону
+        return this.direction > 0
+            ? batteries
+            : batteries.slice().reverse()
     }
 
     /**
@@ -142,5 +147,21 @@ export default class Robot {
     get isAnimated() {
         return !(this.available.length
             && this.dice.freeze)
+    }
+
+    getStepCount(spot) {
+        let diff = this.scheme.indexOf(spot) - this.position
+
+        if (this.direction < 0) {
+            diff *= -1
+        }
+
+        return diff < 0 ? 40 + diff : diff
+    }
+
+    get getStepCountExit() {
+        const finishSpot = this.scheme.find(spot => spot instanceof FinishSpot)
+
+        return this.getStepCount(finishSpot);
     }
 }

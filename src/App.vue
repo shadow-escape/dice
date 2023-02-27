@@ -31,14 +31,14 @@
 
             <div class="d-flex flex-column h-100">
               <div class="d-flex flex-column h-100">
-                <p class="my-4">
-                  Осталось батареек: <strong>{{ robot.batteries.length }}</strong>
-                </p>
-
                 <moves-info
                     v-if="!robot.isAnimated"
                     v-bind="{ robot }"
                 ></moves-info>
+
+                <steps-info
+                    v-bind="{ robot }"
+                ></steps-info>
               </div>
 
               <game-tools
@@ -94,6 +94,7 @@ import TheDice from '@/components/TheDice/TheDice.vue'
 import MovesInfo from '@/components/MovesInfo.vue'
 import GameTools from '@/components/GameTools.vue'
 import GameOverlay from "@/components/GameOverlay.vue";
+import StepsInfo from "@/components/StepsInfo.vue";
 
 /**
  * @todo

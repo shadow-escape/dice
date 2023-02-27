@@ -1,5 +1,6 @@
 export default class Spot {
     effect
+    index
 }
 
 export class EmptySpot extends Spot {
@@ -17,7 +18,6 @@ export class FinishSpot extends Spot {
 export class BatterySpot extends Spot {
     effect = 'battery'
     completed
-    order
 }
 
 export class RandomSpot extends Spot {
