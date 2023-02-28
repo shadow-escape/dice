@@ -4,6 +4,7 @@
       :list="this.robot.legend"
       :group="{ name: 'legend', pull: 'clone', put: false }"
       :sort="false"
+      handle=".handle"
       item-key="effect"
       :move="onMove"
       @start="onStart"
@@ -12,7 +13,10 @@
     <template #item="{ element }">
       <div
           class="control mb-2"
-          :class="[`control-${element}`]"
+          :class="[`control-${element}`, {
+            'handle': robot.getLimit(element) < 4,
+            'is-disabled': robot.getLimit(element) > 3
+          }]"
           :data-effect="element"
       ></div>
     </template>
