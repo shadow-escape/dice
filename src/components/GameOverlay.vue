@@ -73,3 +73,11 @@ export default {
   }
 }
 </script>
+
+<style lang="scss">
+.overlay {
+  @media (max-width: 575.98px) {
+    font-size: 80%;
+  }
+}
+</style>
