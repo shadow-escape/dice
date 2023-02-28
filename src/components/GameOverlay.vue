@@ -32,7 +32,7 @@
           <p class="my-4">
             <strong><em>Узнать больше</em></strong><br>
             Полную справку ты сможешь получить у меня в сообществе <!-- noindex --><a
-                href="https://vk.com/shadowescape"
+                href="https://vk.com/@shadowescape-dice"
                 rel="noindex nofollow noreferer"
                 target="_blank"
                 class="link-info"
