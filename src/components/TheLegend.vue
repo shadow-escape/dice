@@ -11,7 +11,7 @@
   >
     <template #item="{ element }">
       <div
-          class="control m-2"
+          class="control mb-2"
           :class="[`control-${element}`]"
           :data-effect="element"
       ></div>

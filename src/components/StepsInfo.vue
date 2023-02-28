@@ -1,6 +1,6 @@
 <template>
   <div v-if="robot.batteries.length">
-    <p class="my-4">
+    <p class="my-4 d-none d-sm-inline">
       <strong>Осталось батареек: {{ robot.batteries.length }}</strong><br>
       <span class="text-info">Порядок батареек определяется направлением движения робота.</span>
     </p>

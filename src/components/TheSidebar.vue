@@ -10,11 +10,18 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
 .the-sidebar {
-  width: 10%;
   top: 0;
   right: 0;
   background-color: rgba(255, 255, 255, .2);
+
+  @media (max-width: 575.98px) {
+    padding: .5vh;
+  }
+
+  @media (min-width: 576px) {
+    width: 10%;
+  }
 }
 </style>

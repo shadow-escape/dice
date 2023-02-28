@@ -11,7 +11,7 @@
       </div>
 
       <div
-          class="content-board position-absolute"
+          class="content-board"
           :style="{
             'max-width': `${bounds.width * 0.3}px`,
             'max-height': `${bounds.height * 0.5}px`,
@@ -123,6 +123,17 @@ body {
   margin: auto;
   border-radius: 20px;
   padding: 10px;
+
+  @media (max-width: 575.98px) {
+    max-width: 100% !important;
+    width: 100%;
+    max-height: 50vh !important;
+    height: 50vh;
+  }
+
+  @media (min-width: 576px) {
+    position: absolute;
+  }
 }
 
 .game-board {
@@ -134,6 +145,11 @@ body {
     height: 100%;
     position: relative;
     padding: 1% 12%;
+
+    @media (max-width: 575.98px) {
+      flex-flow: column;
+      padding: 1% 6vh;
+    }
   }
 }
 
