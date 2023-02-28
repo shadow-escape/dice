@@ -19,7 +19,8 @@
     "lodash": "^4.17.21",
     "vue": "^3.2.13",
     "vue-tippy": "^6.0.0",
-    "vue-types": "^5.0.2"
+    "vue-types": "^5.0.2",
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.16",

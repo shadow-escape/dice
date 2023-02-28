@@ -134,26 +134,37 @@
         }"
     />
 
-    <the-map-spot
-        v-for="([cx, cy], index) in nodes"
-        :key="`position-${index}`"
-        v-bind="{...$attrs, index, drag, robot}"
-        :attrs="{cx, cy, r: 40}"
-    ></the-map-spot>
+    <draggable
+        :list="robot.scheme"
+        :item-key="element => robot.scheme.indexOf(element)"
+        tag="svg-group"
+        :group="{ name: 'map', put: 'legend' }"
+        :sort="false"
+    >
+      <template #item="{ index }">
+        <the-map-spot
+            v-bind="{...$attrs, index, drag, robot}"
+            :attrs="{cx: nodes[index][0], cy: nodes[index][1], r: 40}"
+        ></the-map-spot>
+      </template>
+    </draggable>
   </svg>
 </template>
 
 <script>
 import { chunk } from 'lodash'
-import {nodes} from './shape'
+import draggable from 'vuedraggable'
+
 import Robot from '@/services/Robot'
 
-import TheMapSpot from '@/components/TheMap/TheMapSpot.vue'
+import {nodes} from './shape'
+import TheMapSpot from './TheMapSpot.vue'
 
 export default {
   name: 'TheMap',
 
   components: {
+    draggable,
     TheMapSpot
   },
 

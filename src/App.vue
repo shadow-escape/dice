@@ -5,7 +5,6 @@
         <div class="h-100 position-relative">
           <the-map
               v-bind="{ drag, robot }"
-              @update:drop="robot.setSpot($event.index, $event.effect)"
               @update:bounds="bounds = $event"
           ></the-map>
         </div>
@@ -71,6 +70,7 @@
       <the-legend
           v-model:drag="drag"
           :robot="robot"
+          @update:drop="robot.setSpot($event.index, $event.effect)"
       ></the-legend>
     </the-sidebar>
   </div>
@@ -104,7 +104,7 @@ const data = reactive({
 })
 const { isEdit, drag, robot, bounds } = toRefs(data)
 
-const overlay = ref(true)
+const overlay = ref(false)
 </script>
 
 <style lang="scss">

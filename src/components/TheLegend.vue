@@ -1,50 +1,69 @@
 <template>
-  <div
-      id="the-sidebar"
+  <draggable
       class="d-flex flex-column align-items-center"
+      :list="this.robot.legend"
+      :group="{ name: 'legend', pull: 'clone', put: false }"
+      :sort="false"
+      item-key="effect"
+      :move="onMove"
+      @start="onStart"
+      @end="onEnd"
   >
-    <div
-        v-for="item in this.robot.legend"
-        :key="`control-${item}`"
-        :id="item"
-        class="control m-2"
-        :class="[`control-${item}`, {
-          'is-disabled': robot.getLimit(item) > 3
-        }]"
-        :draggable="robot.getLimit(item) < 4"
-        @dragstart="onDragStart($event, item)"
-        @dragend="onDragEnd"
-    ></div>
-  </div>
+    <template #item="{ element }">
+      <div
+          class="control m-2"
+          :class="[`control-${element}`]"
+          :data-effect="element"
+      ></div>
+    </template>
+  </draggable>
 </template>
 
 <script>
+import draggable from 'vuedraggable'
+
 import Robot from '@/services/Robot'
 
 export default {
   name: 'TheLegend',
+
+  components: {
+    draggable,
+  },
 
   props: {
     drag: Boolean,
     robot: Robot
   },
 
+  data() {
+    return {
+      index: null
+    }
+  },
+
   methods: {
-    onDragStart(event, item) {
+    onStart() {
       this.$emit('update:drag', true)
-
-      const ghost = document.createElement('div')
-      ghost.classList.add('control', `control-${item}`, 'ghost')
-      document.getElementById('the-sidebar').appendChild(ghost)
-
-      const { clientWidth, clientHeight } = ghost
-
-      event.dataTransfer.setDragImage(ghost, clientWidth/2, clientHeight/2)
-      event.dataTransfer.setData('text/plain', item)
     },
 
-    onDragEnd() {
-      document.querySelectorAll('.ghost').forEach(e => e.remove())
+    onMove({ originalEvent }) {
+      const { target } = originalEvent
+
+      if (target?.dataset) {
+        this.index = target.dataset.index
+      }
+
+      return false
+    },
+
+    onEnd(event) {
+      const { effect } = event.item.dataset
+      const { index } = event.originalEvent instanceof TouchEvent
+          ? this
+          : event.originalEvent.target.dataset
+
+      this.$emit('update:drop', { index, effect })
       this.$emit('update:drag', false)
     }
   }
@@ -71,15 +90,8 @@ export default {
     height: 10vh;
   }
 
-  &.ghost {
-    transform: translateY(-500px);
-    position: absolute;
-    box-shadow: none;
-    background-color: red;
-  }
-
   &:hover {
-    box-shadow: 0 0 15px -5px #fff, 0 0 1px 2px #000;
+    box-shadow: inset 0 0 15px -5px #fff, inset 0 0 1px 2px #000;
   }
 
   &-empty {

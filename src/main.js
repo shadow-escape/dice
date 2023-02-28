@@ -26,6 +26,7 @@ import 'tippy.js/dist/tippy.css'
 
 createApp(App)
     .component('fa-icon', FontAwesomeIcon)
+    .component('svg-group', {template: `<g><slot></slot></g>`})
     .use(VueTippy, {
         directive: 'tippy',
         component: 'tippy'

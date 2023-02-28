@@ -1,23 +1,21 @@
 <template>
-  <circle
-      v-if="available && possible"
-      v-bind="attrs"
-      class="spot-border"
-      :class="{'spot-border_possible': available && possible}"
-  />
-  <circle
-      ref="spot"
-      v-bind="attrs"
-      :class="classList"
-      :data-index="index"
-      @drop="onDrop"
-      @dragenter.prevent
-      @dragover.prevent="hover = true"
-      @dragleave="hover = false"
-      @mouseover="robot.setOver(index)"
-      @mouseleave="robot.setOver(false)"
-      @click="robot.move(index)"
-  />
+  <g :data-index="index">
+    <circle
+        v-if="available && possible"
+        v-bind="attrs"
+        class="spot-border"
+        :class="{'spot-border_possible': available && possible}"
+    />
+    <circle
+        ref="spot"
+        v-bind="attrs"
+        :class="classList"
+        :data-index="index"
+        @mouseover="robot.setOver(index)"
+        @mouseleave="robot.setOver(false)"
+        @click="robot.move(index)"
+    />
+  </g>
 </template>
 
 <script>
@@ -77,17 +75,6 @@ export default {
         'spot-completed': completed,
         'spot-possible': possible && isAvailable,
       }];
-    }
-  },
-
-  methods: {
-    onDrop(event) {
-      this.hover = false
-
-      this.$emit('update:drop', {
-        index: event.target.dataset.index,
-        effect: event.dataTransfer.getData('text')
-      })
     }
   }
 }
