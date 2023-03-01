@@ -104,7 +104,7 @@ const data = reactive({
 })
 const { isEdit, drag, robot, bounds } = toRefs(data)
 
-const overlay = ref(true)
+const overlay = ref(false)
 </script>
 
 <style lang="scss">

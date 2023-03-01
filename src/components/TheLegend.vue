@@ -62,10 +62,10 @@ export default {
     },
 
     onEnd(event) {
-      const { effect } = event.item.dataset
-      const { index } = event.originalEvent instanceof TouchEvent
-          ? this
-          : event.originalEvent.target.dataset
+      const {effect} = event.item.dataset
+      const {index} = event.originalEvent instanceof DragEvent
+          ? event.originalEvent.target.dataset
+          : this
 
       this.$emit('update:drop', { index, effect })
       this.$emit('update:drag', false)
