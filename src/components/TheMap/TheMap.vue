@@ -64,7 +64,7 @@
 
       <pattern id="spot-battery-completed" viewBox="0 0 40 40" width="100%" height="100%">
         <use class="is-disabled" xlink:href="#background" fill="#007650"></use>
-        <use class="is-disabled" xlink:href="#battery" x="-8px" y="-8px" fill="#00fb5f"/>
+        <use class="is-disabled" xlink:href="#battery" fill="#00fb5f"/>
       </pattern>
 
       <pattern id="spot-reverse" viewBox="0 0 40 40" width="100%" height="100%">

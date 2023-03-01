@@ -29,7 +29,15 @@
             :checked="dice.direction === direction"
             @change="dice.setDirection(direction)"
         >
-        <label class="btn btn-light btn-sm" :for="direction">
+        <label
+            class="dice-button btn btn-sm"
+            :class="{
+              'animated-button': !dice.direction,
+              'btn-light': dice.direction !== direction,
+              'btn-primary': dice.direction === direction
+            }"
+            :for="direction"
+        >
           <fa-icon :icon="dice.getDirectionTitle(direction)"/>
         </label>
       </div>
@@ -67,7 +75,7 @@ export default {
 }
 
 .dice {
-  --size: 4vh;
+  --size: calc(1rem + 2.5vmax);
   --offset: calc(var(--size) / 2);
   --n-offset: calc(-1 * var(--offset));
   --spot: calc(var(--size) / 4);
@@ -79,10 +87,6 @@ export default {
   transform-style: preserve-3d;
   transition: transform .25s;
 
-  @media screen and (orientation: landscape) {
-    --size: 4vw;
-  }
-
   &.is-frozen {
     transition: unset !important;
   }
@@ -91,7 +95,7 @@ export default {
     width: 100%;
     height: 100%;
     background: #fff;
-    border: 2px inset black;
+    border: 0.1vmax inset black;
     position: absolute;
     display: flex;
     align-items: center;
@@ -167,5 +171,4 @@ export default {
     }
   }
 }
-
 </style>

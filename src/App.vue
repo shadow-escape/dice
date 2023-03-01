@@ -1,5 +1,13 @@
 <template>
   <div class="game-board h-100">
+    <the-sidebar v-if="isEdit">
+      <the-legend
+          v-model:drag="drag"
+          :robot="robot"
+          @update:drop="robot.setSpot($event.index, $event.effect)"
+      ></the-legend>
+    </the-sidebar>
+
     <div class="game-board__inner">
       <div class="col h-100">
         <div class="h-100 position-relative">
@@ -24,6 +32,13 @@
               v-if="!isEdit && robot.isReady"
               class="content-board__dice position-relative h-100 d-flex flex-column justify-content-between"
           >
+
+            <p>
+              <strong>
+                Каких костей больше?
+              </strong>
+            </p>
+
             <the-dice
                 v-bind="{ dice: robot.dice }"
             ></the-dice>
@@ -47,7 +62,10 @@
             </div>
           </div>
 
-          <div class="d-flex flex-column justify-content-center h-100" v-else>
+          <div
+              v-else
+              class="d-flex flex-column justify-content-center h-100"
+          >
             <div>
               <p>
                 Разместите батарейки на доске
@@ -65,14 +83,6 @@
         </div>
       </div>
     </div>
-
-    <the-sidebar v-if="isEdit">
-      <the-legend
-          v-model:drag="drag"
-          :robot="robot"
-          @update:drop="robot.setSpot($event.index, $event.effect)"
-      ></the-legend>
-    </the-sidebar>
   </div>
 
   <game-overlay
@@ -104,7 +114,7 @@ const data = reactive({
 })
 const { isEdit, drag, robot, bounds } = toRefs(data)
 
-const overlay = ref(false)
+const overlay = ref(true)
 </script>
 
 <style lang="scss">
@@ -144,23 +154,14 @@ body {
     display: flex;
     height: 100%;
     position: relative;
-    padding: 1% 12%;
 
     @media (max-width: 575.98px) {
       flex-flow: column;
-      padding: 1% 6vh;
+    }
+
+    @media (min-width: 576px) {
+      padding: 1% 12%;
     }
   }
-}
-
-.overlay {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  background: #000;
 }
 </style>

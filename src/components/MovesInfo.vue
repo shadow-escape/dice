@@ -10,7 +10,7 @@
         class="list-inline-item"
     >
       <button
-          class="btn btn-sm"
+          class="btn btn-sm animated-button"
           :class="{
             'btn-light': !isOver(index),
             'btn-primary': isOver(index)

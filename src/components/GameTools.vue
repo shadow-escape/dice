@@ -103,10 +103,6 @@ const showPositions = () => {
 </script>
 
 <style lang="scss">
-.game-tools {
-  height: 10%;
-}
-
 .dice-overlay {
   top: 0;
   left: 0;

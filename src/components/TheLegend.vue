@@ -1,6 +1,6 @@
 <template>
   <draggable
-      class="d-flex flex-column align-items-center"
+      class="the-legend"
       :list="this.robot.legend"
       :group="{ name: 'legend', pull: 'clone', put: false }"
       :sort="false"
@@ -12,7 +12,7 @@
   >
     <template #item="{ element }">
       <div
-          class="control mb-2"
+          class="control m-2"
           :class="[`control-${element}`, {
             'handle': robot.getLimit(element) < 4,
             'is-disabled': robot.getLimit(element) > 3
@@ -75,24 +75,27 @@ export default {
 </script>
 
 <style lang="scss">
+.the-legend {
+  display: flex;
+  align-items: center;
+
+  @media (max-width: 575.98px) {
+    justify-content: space-around;
+  }
+
+  @media (min-width: 576px) {
+    flex-direction: column;
+  }
+}
+
 .control {
-  width: 10vh;
-  height: 10vh;
+  width: 10vmin;
+  height: 10vmin;
   border-radius: 50%;
   background-position: center center;
   background-repeat: no-repeat;
   background-size: cover;
   cursor: grab;
-
-  @media screen and (orientation: portrait) {
-    width: 10vw;
-    height: 10vw;
-  }
-
-  @media screen and (orientation:landscape) {
-    width: 10vh;
-    height: 10vh;
-  }
 
   &:hover {
     box-shadow: inset 0 0 15px -5px #fff, inset 0 0 1px 2px #000;
